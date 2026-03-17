@@ -1,0 +1,1643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIPM Master Guide — Become an AI Product Manager</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+:root{
+  --bg:#fafaf8;--bg2:#f3f2ee;--bg3:#e8e5de;
+  --ink:#18181b;--ink2:#52525b;--ink3:#a1a1aa;--line:#e4e4e7;
+  --sans:'Inter',sans-serif;--mono:'JetBrains Mono',monospace;
+  --sw:268px;--r:10px;
+  --c1:#6366f1;--c1l:#eef2ff;
+  --c2:#0ea5e9;--c2l:#e0f2fe;
+  --c3:#10b981;--c3l:#d1fae5;
+  --c4:#f59e0b;--c4l:#fef3c7;
+  --c5:#ef4444;--c5l:#fee2e2;
+  --c6:#8b5cf6;--c6l:#ede9fe;
+  --c7:#ec4899;--c7l:#fce7f3;
+  --c8:#14b8a6;--c8l:#ccfbf1;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:15px}
+body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.65;overflow-x:hidden}
+
+/* ══ SIDEBAR ══ */
+#sb{
+  width:var(--sw);position:fixed;top:0;left:0;bottom:0;
+  overflow-y:auto;background:#fff;border-right:1px solid var(--line);
+  z-index:500;display:flex;flex-direction:column;transition:transform .3s
+}
+#sb::-webkit-scrollbar{width:3px}
+#sb::-webkit-scrollbar-thumb{background:var(--bg3);border-radius:2px}
+.sb-top{padding:18px 16px 14px;border-bottom:1px solid var(--line)}
+.sb-brand{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:4px}
+.sb-title{font-size:13.5px;font-weight:800;color:var(--ink);line-height:1.3}
+.sb-search{padding:9px 14px;border-bottom:1px solid var(--line)}
+.sb-search input{
+  width:100%;background:var(--bg2);border:1.5px solid var(--line);border-radius:7px;
+  padding:6px 10px 6px 28px;font-family:var(--sans);font-size:12px;color:var(--ink);
+  outline:none;transition:border .15s;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='13' height='13' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:8px center}
+.sb-search input:focus{border-color:var(--c1)}
+.sb-search input::placeholder{color:var(--ink3)}
+.sb-prog{padding:9px 14px;border-bottom:1px solid var(--line)}
+.sb-prog-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--ink3);margin-bottom:4px}
+.prog-bar{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden}
+.prog-fill{height:100%;background:linear-gradient(90deg,var(--c1),var(--c3));border-radius:2px;width:0%;transition:width .5s}
+.sb-nav{flex:1;padding:4px 0}
+.nav-ch{
+  display:flex;align-items:center;gap:7px;padding:7px 14px;
+  font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;
+  cursor:pointer;user-select:none;transition:background .12s;border-left:3px solid transparent
+}
+.nav-ch:hover{background:var(--bg2)}
+.nav-ch .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.nav-ch .arr{margin-left:auto;font-size:8px;transition:transform .2s;color:var(--ink3)}
+.nav-ch.open .arr{transform:rotate(90deg)}
+.nav-topics{display:none}
+.nav-topics.open{display:block}
+.nav-t{
+  display:flex;align-items:center;padding:4px 14px 4px 30px;
+  font-size:12px;color:var(--ink2);text-decoration:none;
+  transition:all .12s;border-left:3px solid transparent
+}
+.nav-t:hover{color:var(--ink);background:var(--bg2)}
+.nav-t.active{color:var(--ink);font-weight:700;background:var(--bg2)}
+.nav-t .ck{margin-left:auto;font-size:10px;color:transparent}
+.nav-t.done .ck{color:var(--c3)}
+.sb-foot{padding:12px 14px;border-top:1px solid var(--line);font-size:10px;color:var(--ink3);line-height:1.6}
+
+/* ══ OVERLAY ══ */
+#overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:499}
+#overlay.vis{display:block}
+
+/* ══ MOBILE BTN ══ */
+#mob{
+  display:none;position:fixed;top:12px;left:12px;z-index:600;
+  background:var(--c1);color:#fff;border:none;padding:8px 12px;
+  font-family:var(--sans);font-size:12px;font-weight:700;border-radius:8px;
+  cursor:pointer;box-shadow:0 2px 8px rgba(99,102,241,.4)
+}
+
+/* ══ MAIN ══ */
+.main{margin-left:var(--sw);min-height:100vh;padding-bottom:120px}
+
+/* HERO */
+.hero{
+  background:linear-gradient(135deg,#1e1b4b 0%,#4338ca 60%,#6366f1 100%);
+  padding:52px 52px 46px;color:#fff;position:relative;overflow:hidden
+}
+.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:280px;height:280px;background:rgba(255,255,255,.04);border-radius:50%}
+.hero-eye{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.55);margin-bottom:10px}
+.hero h1{font-size:clamp(24px,3vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1.15;margin-bottom:12px}
+.hero h1 span{background:linear-gradient(90deg,#a5b4fc,#67e8f9);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-desc{font-size:14.5px;color:rgba(255,255,255,.8);max-width:520px;line-height:1.75;margin-bottom:22px}
+.hero-tags{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:26px}
+.htag{background:rgba(255,255,255,.12);color:rgba(255,255,255,.9);padding:3px 11px;border-radius:20px;font-size:11px;font-weight:500;border:1px solid rgba(255,255,255,.18)}
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.stat{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:14px;text-align:center}
+.stat-n{font-size:24px;font-weight:800;color:#fff;letter-spacing:-.02em}
+.stat-l{font-size:10px;color:rgba(255,255,255,.6);margin-top:2px;text-transform:uppercase;letter-spacing:.06em}
+
+/* ══ CONTENT ══ */
+.wrap{padding:0 52px}
+
+/* CH HEADER */
+.ch-hd{padding:40px 0 18px;border-top:1px solid var(--line);margin-top:60px}
+.ch-hd:first-child{margin-top:0;border-top:none}
+.ch-tags{display:flex;gap:8px;margin-bottom:8px;align-items:center}
+.ch-pill{font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;text-transform:uppercase;letter-spacing:.06em}
+.ch-nbadge{font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;background:var(--bg3);color:var(--ink3)}
+.ch-title{font-size:22px;font-weight:800;letter-spacing:-.025em;margin-bottom:7px}
+.ch-bar{height:3px;border-radius:2px;width:50px;margin-bottom:10px}
+.ch-desc{font-size:13.5px;color:var(--ink2);max-width:600px;line-height:1.75}
+
+/* TOPIC */
+.topic{padding-top:38px}
+.topic-hd{display:flex;align-items:flex-start;gap:10px;margin-bottom:14px}
+.tnum{font-family:var(--mono);font-size:11px;color:var(--ink3);padding-top:4px;min-width:28px;flex-shrink:0}
+.ttitle{font-size:17px;font-weight:700;letter-spacing:-.015em;line-height:1.3;flex:1}
+.done-btn{
+  margin-left:auto;background:none;border:1.5px solid var(--line);border-radius:8px;
+  padding:4px 11px;font-family:var(--sans);font-size:11px;color:var(--ink3);
+  cursor:pointer;transition:all .15s;white-space:nowrap;flex-shrink:0
+}
+.done-btn:hover{background:var(--bg2);color:var(--ink)}
+.done-btn.done{background:#d1fae5;color:#065f46;border-color:#6ee7b7}
+
+/* BODY */
+.body{font-size:14px;color:var(--ink2);line-height:1.85;margin-bottom:10px}
+.body strong{color:var(--ink);font-weight:700}
+.body a{color:var(--c1);text-decoration:none;font-weight:600}
+
+/* CONCEPT GRID */
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0}
+.ccard{border:1.5px solid var(--line);border-radius:var(--r);padding:13px 15px;background:#fff;transition:transform .15s}
+.ccard:hover{transform:translateY(-2px)}
+.ccard .icon{font-size:18px;margin-bottom:6px}
+.ccard .term{font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:4px}
+.ccard .def{font-size:12px;color:var(--ink2);line-height:1.65}
+
+/* CALLOUT */
+.callout{border-radius:var(--r);padding:13px 16px;margin:12px 0;font-size:13px;line-height:1.75;display:flex;gap:9px;align-items:flex-start}
+.callout .ci{font-size:15px;flex-shrink:0;margin-top:2px}
+.callout.tip{background:#ecfdf5;border-left:4px solid #10b981;color:#065f46}
+.callout.warn{background:#fffbeb;border-left:4px solid #f59e0b;color:#92400e}
+.callout.note{background:#eff6ff;border-left:4px solid #3b82f6;color:#1e40af}
+.callout.danger{background:#fef2f2;border-left:4px solid #ef4444;color:#991b1b}
+.callout.purple{background:#f5f3ff;border-left:4px solid #7c3aed;color:#4c1d95}
+.callout strong{font-weight:700}
+
+/* EXAMPLE BOX */
+.ex{border-left:4px solid var(--ink);background:var(--bg2);border-radius:0 var(--r) var(--r) 0;padding:16px 18px;margin:14px 0}
+.ex .elbl{font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:5px}
+.ex .etitle{font-size:13px;font-weight:700;color:var(--ink);margin-bottom:8px}
+.ex p,.ex li{font-size:12.5px;color:var(--ink2);line-height:1.75}
+.ex ul{padding-left:18px;margin:5px 0}
+.ex li{margin-bottom:3px}
+.sc{background:#fff;border-radius:7px;padding:9px 13px;margin:6px 0;font-size:12px;color:var(--ink2);line-height:1.7;border:1px solid var(--line)}
+.sc strong{color:var(--ink);font-weight:700}
+code{font-family:var(--mono);font-size:11px;background:var(--bg3);padding:2px 5px;border-radius:3px;color:var(--c1)}
+
+/* RESOURCE BOX */
+.rbox{border:1.5px solid var(--line);border-radius:var(--r);padding:16px 18px;margin:14px 0;background:#fff}
+.rbox .rlbl{font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin-bottom:10px}
+.rlist{list-style:none;display:flex;flex-direction:column;gap:7px}
+.rlist li{display:flex;align-items:flex-start;gap:9px;font-size:12px}
+.rlist li::before{content:'→';color:var(--c1);font-weight:700;flex-shrink:0;padding-top:1px}
+.rlist a{color:var(--c1);text-decoration:none;font-weight:600}
+.rlist a:hover{text-decoration:underline}
+.rlist .rn{color:var(--ink3);font-size:11px;margin-left:3px}
+.badge{display:inline-block;font-size:9px;font-weight:700;padding:1px 6px;border-radius:3px;margin-left:4px;vertical-align:middle;text-transform:uppercase;letter-spacing:.04em}
+.badge.free{background:#d1fae5;color:#065f46}
+.badge.new{background:#dbeafe;color:#1e40af}
+
+/* QA */
+.qlbl{font-size:9px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);margin:18px 0 8px}
+.qa{border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin-bottom:7px;transition:border-color .15s}
+.qa:hover{border-color:var(--c1)}
+.qa-q{display:flex;align-items:flex-start;gap:9px;padding:12px 14px;cursor:pointer;user-select:none;background:#fff;transition:background .12s}
+.qa-q:hover{background:var(--bg2)}
+.qb{background:var(--ink);color:#fff;font-size:8px;font-weight:800;padding:2px 6px;border-radius:3px;margin-top:2px;flex-shrink:0;font-family:var(--mono)}
+.qsb{font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;margin-top:2px;flex-shrink:0;white-space:nowrap}
+.qt{font-size:12.5px;font-weight:600;color:var(--ink);flex:1;line-height:1.5}
+.qarr{color:var(--ink3);font-size:10px;transition:transform .2s;padding-top:2px;flex-shrink:0}
+.qa.open .qarr{transform:rotate(90deg)}
+.qa-a{display:none;padding:14px 16px;border-top:1.5px solid var(--line);background:var(--bg2)}
+.qa.open .qa-a{display:block}
+.albl{font-size:9px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#065f46;margin-bottom:8px}
+.qa-a p{font-size:12.5px;color:var(--ink2);line-height:1.8;margin-bottom:7px}
+.qa-a ul{padding-left:18px;margin-bottom:7px}
+.qa-a li{font-size:12.5px;color:var(--ink2);line-height:1.75;margin-bottom:3px}
+.qa-a strong{color:var(--ink);font-weight:700}
+.qsrc{font-size:10px;color:var(--ink3);margin-top:7px;padding-top:7px;border-top:1px solid var(--line)}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px;border-radius:var(--r);overflow:hidden;border:1.5px solid var(--line)}
+.tbl th{text-align:left;padding:8px 11px;background:var(--ink);color:#fff;font-weight:700;font-size:11px}
+.tbl td{padding:8px 11px;border-bottom:1px solid var(--line);color:var(--ink2);line-height:1.6;vertical-align:top}
+.tbl tr:nth-child(even) td{background:var(--bg2)}
+.tbl tr:last-child td{border-bottom:none}
+
+/* TOOL GRID */
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:12px 0}
+.tcard{border:1.5px solid var(--line);border-radius:var(--r);padding:12px 14px;background:#fff;transition:all .15s}
+.tcard:hover{border-color:var(--c1);transform:translateY(-2px)}
+.tcard a{font-size:12.5px;font-weight:700;color:var(--c1);text-decoration:none}
+.tcard .td{font-size:11px;color:var(--ink3);margin-top:3px;line-height:1.5}
+
+/* STEPS */
+.steps{counter-reset:s;display:flex;flex-direction:column;gap:12px;margin:12px 0}
+.step{display:flex;gap:12px}
+.sn{counter-increment:s;min-width:26px;height:26px;background:var(--ink);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;flex-shrink:0;margin-top:2px;font-family:var(--mono)}
+.sc2 .st{font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:2px}
+.sc2 .sd{font-size:12.5px;color:var(--ink2);line-height:1.65}
+
+/* CODE BLOCK */
+.codeblock{background:#1e1e2e;border-radius:var(--r);padding:14px 16px;margin:12px 0;overflow-x:auto}
+.codeblock .clbl{font-size:9.5px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#6c7086;margin-bottom:6px}
+.codeblock pre{font-family:var(--mono);font-size:12px;color:#cdd6f4;line-height:1.7;white-space:pre;margin:0}
+.kw{color:#cba6f7}.fn{color:#89b4fa}.str{color:#a6e3a1}.cm{color:#585b70}.num{color:#fab387}
+
+/* BACK TO TOP */
+#btt{
+  position:fixed;bottom:22px;right:22px;background:var(--c1);color:#fff;
+  border:none;border-radius:9px;padding:9px 14px;font-family:var(--sans);
+  font-size:11px;font-weight:700;cursor:pointer;opacity:0;transition:all .2s;
+  pointer-events:none;z-index:400;box-shadow:0 3px 10px rgba(99,102,241,.4)
+}
+#btt.vis{opacity:1;pointer-events:auto}
+
+hr.div{border:none;border-top:1px solid var(--line);margin:24px 0}
+
+@media(max-width:1000px){
+  #sb{transform:translateX(-100%)}
+  #sb.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .hero,.wrap{padding-left:22px;padding-right:22px}
+  #mob{display:block}
+  .cgrid,.tgrid,.stats-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<button id="mob" onclick="toggleSB()">☰ Menu</button>
+<div id="overlay" onclick="toggleSB()"></div>
+<button id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑ Top</button>
+
+<!-- ══ SIDEBAR ══ -->
+<nav id="sb">
+  <div class="sb-top">
+    <div class="sb-brand">Complete LMS · 2025</div>
+    <div class="sb-title">AI Product Manager Guide</div>
+  </div>
+  <div class="sb-search"><input type="text" id="srch" placeholder="Search topics…" oninput="doSearch(this.value)"></div>
+  <div class="sb-prog">
+    <div class="sb-prog-lbl"><span>Progress</span><span id="pct">0% complete</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="pfill"></div></div>
+  </div>
+  <div class="sb-nav" id="nav">
+
+    <div class="nav-ch open" onclick="toggleCh(this)" style="border-left-color:var(--c1)"><span class="dot" style="background:var(--c1)"></span><span>01 — AI & ML Foundations</span><span class="arr">▶</span></div>
+    <div class="nav-topics open">
+      <a class="nav-t" href="#t1-1">1.1 Types of ML<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t1-2">1.2 How LLMs Work<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t1-3">1.3 Key AI Concepts<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t1-4">1.4 Model Types<span class="ck">✓</span></a>
+    </div>
+
+    <div class="nav-ch" onclick="toggleCh(this)" style="border-left-color:var(--c2)"><span class="dot" style="background:var(--c2)"></span><span>02 — PM Fundamentals</span><span class="arr">▶</span></div>
+    <div class="nav-topics">
+      <a class="nav-t" href="#t2-1">2.1 The One Rule of PM<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t2-2">2.2 The PM Lifecycle<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t2-3">2.3 Product Sense<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t2-4">2.4 Problem vs Solution Space<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t2-5">2.5 The 6-Step Framework<span class="ck">✓</span></a>
+    </div>
+
+    <div class="nav-ch" onclick="toggleCh(this)" style="border-left-color:var(--c3)"><span class="dot" style="background:var(--c3)"></span><span>03 — User Research</span><span class="arr">▶</span></div>
+    <div class="nav-topics">
+      <a class="nav-t" href="#t3-1">3.1 Why Research Matters<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t3-2">3.2 User Interviews & Mom Test<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t3-3">3.3 Jobs to Be Done<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t3-4">3.4 Personas & Journey Maps<span class="ck">✓</span></a>
+    </div>
+
+    <div class="nav-ch" onclick="toggleCh(this)" style="border-left-color:var(--c4)"><span class="dot" style="background:var(--c4)"></span><span>04 — Prioritisation & Strategy</span><span class="arr">▶</span></div>
+    <div class="nav-topics">
+      <a class="nav-t" href="#t4-1">4.1 Kano Model<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t4-2">4.2 ICE & Impact-Effort Matrix<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t4-3">4.3 Vision, Strategy & OKRs<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t4-4">4.4 Product Roadmaps<span class="ck">✓</span></a>
+    </div>
+
+    <div class="nav-ch" onclick="toggleCh(this)" style="border-left-color:var(--c5)"><span class="dot" style="background:var(--c5)"></span><span>05 — AI-Specific PM Skills</span><span class="arr">▶</span></div>
+    <div class="nav-topics">
+      <a class="nav-t" href="#t5-1">5.1 Prompt Engineering<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t5-2">5.2 AI Evals & Quality<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t5-3">5.3 Data Strategy & Flywheels<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t5-4">5.4 Responsible AI & Ethics<span class="ck">✓</span></a>
+    </div>
+
+    <div class="nav-ch" onclick="toggleCh(this)" style="border-left-color:var(--c6)"><span class="dot" style="background:var(--c6)"></span><span>06 — Tech for PMs 🔥</span><span class="arr">▶</span></div>
+    <div class="nav-topics">
+      <a class="nav-t" href="#t6-1">6.1 SQL for PMs<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t6-2">6.2 Python for AI/ML PMs<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t6-3">6.3 Tools Stack<span class="ck">✓</span></a>
+    </div>
+
+    <div class="nav-ch" onclick="toggleCh(this)" style="border-left-color:var(--c7)"><span class="dot" style="background:var(--c7)"></span><span>07 — Agile & Delivery</span><span class="arr">▶</span></div>
+    <div class="nav-topics">
+      <a class="nav-t" href="#t7-1">7.1 Agile vs Waterfall<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t7-2">7.2 Scrum & Sprints<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t7-3">7.3 Metrics & A/B Testing<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t7-4">7.4 Working with Stakeholders<span class="ck">✓</span></a>
+    </div>
+
+    <div class="nav-ch" onclick="toggleCh(this)" style="border-left-color:var(--c8)"><span class="dot" style="background:var(--c8)"></span><span>08 — Interview Prep</span><span class="arr">▶</span></div>
+    <div class="nav-topics">
+      <a class="nav-t" href="#t8-1">8.1 Real Questions Asked<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t8-2">8.2 The 8-Step Framework<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t8-3">8.3 Mock Answers<span class="ck">✓</span></a>
+      <a class="nav-t" href="#t8-4">8.4 Common Mistakes<span class="ck">✓</span></a>
+    </div>
+
+  </div>
+  <div class="sb-foot">Free forever · Progress saves to browser<br>Based on HelloPM + real interview data</div>
+</nav>
+
+<!-- ══ MAIN ══ -->
+<main class="main">
+
+<div class="hero">
+  <p class="hero-eye">Complete AIPM Learning System · 2025</p>
+  <h1>Become an <span>AI Product Manager</span></h1>
+  <p class="hero-desc">Everything in one place — from the One Rule of PM to cracking OpenAI and Google interviews. Interactive diagrams, SQL & Python for PMs, real case studies, and actual interview questions.</p>
+  <div class="hero-tags">
+    <span class="htag">8 Chapters</span><span class="htag">40+ Topics</span>
+    <span class="htag">Interactive Diagrams</span><span class="htag">SQL + Python</span>
+    <span class="htag">Real Q&amp;A</span><span class="htag">Progress Tracking</span>
+  </div>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-n">8</div><div class="stat-l">Chapters</div></div>
+    <div class="stat"><div class="stat-n">40+</div><div class="stat-l">Topics</div></div>
+    <div class="stat"><div class="stat-n">35+</div><div class="stat-l">Interview Q&As</div></div>
+    <div class="stat"><div class="stat-n">Free</div><div class="stat-l">Forever</div></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- ════════════ CH1 ════════════ -->
+<div class="ch-hd" id="ch1">
+  <div class="ch-tags"><span class="ch-nbadge">Chapter 01</span><span class="ch-pill" style="background:var(--c1l);color:var(--c1)">Technical Foundation</span></div>
+  <h2 class="ch-title" style="color:var(--c1)">AI & ML Foundations</h2>
+  <div class="ch-bar" style="background:linear-gradient(90deg,var(--c1),#818cf8)"></div>
+  <p class="ch-desc">You don't need to write code. But you need to understand how AI works well enough to have credible conversations with ML engineers and spot product risks before they become production incidents.</p>
+</div>
+
+<div class="topic" id="t1-1">
+  <div class="topic-hd"><span class="tnum">1.1</span><h3 class="ttitle">Types of Machine Learning</h3><button class="done-btn" onclick="markDone(this,'t1-1')">✓ Mark done</button></div>
+  <p class="body">Machine learning teaches computers to make decisions from data rather than explicit rules. As AIPM, knowing which ML type powers which product lets you ask the right questions and set realistic expectations.</p>
+  <div class="cgrid">
+    <div class="ccard" style="border-top:3px solid var(--c1)"><div class="icon">🎯</div><div class="term">Supervised Learning</div><div class="def">Model learns from labelled data — input paired with correct output. Powers spam filters, fraud detection, skip prediction. Most production AI you interact with daily.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c3)"><div class="icon">🔍</div><div class="term">Unsupervised Learning</div><div class="def">Model finds patterns without labels. Used for user segmentation, anomaly detection, topic clustering. Netflix finding hidden viewing personas you didn't know existed.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c5)"><div class="icon">🎮</div><div class="term">Reinforcement Learning</div><div class="def">Model learns by trial and error, receiving rewards for good actions. Powers Instagram feed ranking and RLHF — the technique that makes ChatGPT feel helpful and aligned.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c4)"><div class="icon">🧬</div><div class="term">Self-Supervised Learning</div><div class="def">Model creates its own labels. GPT is pretrained by predicting the next word — the label is always the next token. How all modern LLMs are initially trained on internet data.</div></div>
+  </div>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:16px;margin:12px 0">
+    <div style="font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:10px">ML Types → Real Products</div>
+    <table class="tbl">
+      <thead><tr><th>Product</th><th>ML Type</th><th>Training Signal</th><th>PM Insight</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Gmail spam filter</strong></td><td>Supervised</td><td>Spam/not-spam labels</td><td>Quality = label quality</td></tr>
+        <tr><td><strong>Spotify skip prediction</strong></td><td>Supervised</td><td>User skipped/completed</td><td>Every skip is free labelled data</td></tr>
+        <tr><td><strong>Netflix user clustering</strong></td><td>Unsupervised</td><td>No labels — auto-finds groups</td><td>Reveals unknown personas</td></tr>
+        <tr><td><strong>Instagram feed ranking</strong></td><td>Reinforcement</td><td>Engagement=reward; close=penalty</td><td>Optimises engagement, not wellbeing</td></tr>
+        <tr><td><strong>GPT / Claude base model</strong></td><td>Self-supervised</td><td>Predict next token in text</td><td>Broad knowledge, no human labels</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="rbox"><div class="rlbl">Free Resources</div><ul class="rlist">
+    <li><a href="https://www.coursera.org/learn/ai-for-everyone" target="_blank">AI for Everyone — Andrew Ng</a><span class="badge free">FREE</span><span class="rn"> Best starting point. No technical background needed.</span></li>
+    <li><a href="https://developers.google.com/machine-learning/crash-course" target="_blank">ML Crash Course — Google</a><span class="badge free">FREE</span><span class="rn"> Visual and interactive, ~15 hours. Used by Google engineers.</span></li>
+  </ul></div>
+  <div class="qlbl">Interview Questions</div>
+  <div class="qa" onclick="toggleQA(this)">
+    <div class="qa-q"><span class="qb">Q</span><span class="qsb" style="background:#dbeafe;color:#1e40af">Google · Amazon</span><span class="qt">What type of ML powers a recommendation system and why does it matter for a PM?</span><span class="qarr">▶</span></div>
+    <div class="qa-a"><div class="albl">Model Answer</div>
+    <p>Recommendation systems combine <strong>supervised learning</strong> (trained on historical interactions as labels) with reinforcement dynamics that update as new interactions arrive.</p>
+    <p>For the PM, the critical insight: recommendation quality is directly tied to data volume and quality. This is why the <strong>cold start problem</strong> is a product design challenge, not just an ML one. You solve it through onboarding flows that collect preference signals early.</p>
+    <p><strong>First question I ask on any recommendation product:</strong> What's our data flywheel? If using the product more doesn't improve recommendations, we don't have a moat.</p>
+    <div class="qsrc">Reported at Amazon, Netflix, Spotify PM interviews · Glassdoor 2024-25</div></div>
+  </div>
+</div>
+
+<div class="topic" id="t1-2">
+  <div class="topic-hd"><span class="tnum">1.2</span><h3 class="ttitle">How Large Language Models Work</h3><button class="done-btn" onclick="markDone(this,'t1-2')">✓ Mark done</button></div>
+  <p class="body">LLMs are the engine behind ChatGPT, Claude, and Gemini. You need to understand the key concepts well enough to set expectations, design fallbacks, and identify where product risk lives.</p>
+  <div class="cgrid">
+    <div class="ccard" style="border-top:3px solid var(--c1)"><div class="term">🔢 Tokenisation</div><div class="def">Text split into tokens — roughly words or sub-words. 'Unbelievable' → ['Un','believ','able']. The model never sees letters — only token IDs. Token limits drive cost and context constraints.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c2)"><div class="term">🧠 Context Window</div><div class="def">How much text the model can process in one request. GPT-4 Turbo: 128K tokens. Claude: 200K tokens. Larger context = more expensive + more latency. As PM, you decide what goes in the context.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c3)"><div class="term">🌡️ Temperature</div><div class="def">Controls randomness. Temperature 0 = always picks the most probable next token (deterministic). Higher = more creative. Factual Q&A → low. Creative writing → higher. You configure this for your product.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c5)"><div class="term">⚠️ Hallucination</div><div class="def">The model generates fluent, confident text that is factually wrong. It predicts probable text, not verified facts. <strong>This is your single biggest product risk when building with LLMs.</strong></div></div>
+  </div>
+  <div class="callout danger"><span class="ci">⚠️</span><div><strong>Real-world incident:</strong> In 2023, two lawyers submitted a brief citing ChatGPT-hallucinated case precedents that didn't exist. The judge fined them $5,000. For legal, medical, or financial products — always implement RAG, source citations, and human review gates.</div></div>
+  <div class="rbox"><div class="rlbl">Free Resources</div><ul class="rlist">
+    <li><a href="https://jalammar.github.io/illustrated-transformer/" target="_blank">The Illustrated Transformer — Jay Alammar</a><span class="badge free">FREE</span><span class="rn"> Best visual explanation. Bookmark this.</span></li>
+    <li><a href="https://www.deeplearning.ai/short-courses/" target="_blank">DeepLearning.AI Short Courses</a><span class="badge free">FREE</span><span class="rn"> Free courses on LLMs, RAG, and prompt engineering.</span></li>
+  </ul></div>
+</div>
+
+<div class="topic" id="t1-3">
+  <div class="topic-hd"><span class="tnum">1.3</span><h3 class="ttitle">Key AI Concepts Every AIPM Must Know</h3><button class="done-btn" onclick="markDone(this,'t1-3')">✓ Mark done</button></div>
+  <div class="cgrid">
+    <div class="ccard"><div class="term">🎯 Precision</div><div class="def">Of all positive predictions — how many were actually correct? High precision = few false alarms. Spam filter marking 10 emails where 9 really are spam = 90% precision.</div></div>
+    <div class="ccard"><div class="term">🕵️ Recall</div><div class="def">Of all actual positives — how many did the model catch? A spam filter catching 9 out of 10 actual spam emails = 90% recall. Optimise for recall when missing something is costly.</div></div>
+    <div class="ccard"><div class="term">📖 RAG</div><div class="def">Retrieval Augmented Generation. Fetch relevant documents at query time and include in the prompt instead of relying on training memory. The standard fix for hallucination in knowledge-intensive products.</div></div>
+    <div class="ccard"><div class="term">📉 Model Drift</div><div class="def">Real-world data changes but model was trained on old data. A fraud model from 2022 misses new fraud patterns in 2025. Requires continuous monitoring and periodic retraining.</div></div>
+  </div>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Precision vs Recall — Choosing the Right Trade-off</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;padding:14px;gap:10px">
+      <div style="background:#fee2e2;border-radius:8px;padding:12px;border-left:4px solid #ef4444">
+        <div style="font-size:10px;font-weight:800;color:#991b1b;margin-bottom:5px;text-transform:uppercase">Children's Platform Moderation</div>
+        <div style="font-size:11.5px;color:#7f1d1d;line-height:1.65">❌ High precision only = misses subtle harmful content.<br><br>✅ <strong>High recall</strong> = some false positives, but human review catches them. Correct choice — cost of missing harm >> cost of false alarm.</div>
+      </div>
+      <div style="background:#d1fae5;border-radius:8px;padding:12px;border-left:4px solid #10b981">
+        <div style="font-size:10px;font-weight:800;color:#065f46;margin-bottom:5px;text-transform:uppercase">Priority Inbox Feature</div>
+        <div style="font-size:11.5px;color:#064e3b;line-height:1.65">❌ High recall = marks everything important, inbox full, feature useless.<br><br>✅ <strong>High precision</strong> = some emails missed, but users trust the feature. Correct choice.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="topic" id="t1-4">
+  <div class="topic-hd"><span class="tnum">1.4</span><h3 class="ttitle">Model Types by Category</h3><button class="done-btn" onclick="markDone(this,'t1-4')">✓ Mark done</button></div>
+  <table class="tbl"><thead><tr><th>Model Type</th><th>Examples</th><th>Powers These Products</th><th>Key PM Limitation</th></tr></thead><tbody>
+  <tr><td><strong>LLM</strong></td><td>GPT-4, Claude, Gemini</td><td>Chatbots, writing, code generation</td><td>Hallucination, high cost at scale</td></tr>
+  <tr><td><strong>Embedding</strong></td><td>text-embedding-3, Cohere</td><td>Semantic search, RAG retrieval</td><td>Static — must retrain as content changes</td></tr>
+  <tr><td><strong>Image generation</strong></td><td>DALL-E 3, Stable Diffusion</td><td>Creative tools, product image gen</td><td>Copyright concerns, safety risks</td></tr>
+  <tr><td><strong>Recommendation</strong></td><td>Custom at Netflix/Spotify</td><td>Feed ranking, playlist generation</td><td>Cold start problem, filter bubbles</td></tr>
+  <tr><td><strong>Classification</strong></td><td>Custom fine-tuned models</td><td>Spam, fraud, content moderation</td><td>Needs labelled data, degrades with drift</td></tr>
+  <tr><td><strong>Multimodal</strong></td><td>GPT-4V, Gemini, Claude</td><td>Image Q&A, document understanding</td><td>Most expensive, still improving</td></tr>
+  </tbody></table>
+  <div class="callout tip"><span class="ci">💡</span><div><strong>AIPM mental model:</strong> Every AI feature needs three designs — the happy path (AI works), the fallback path (AI fails gracefully), and the recovery path (user always accomplishes their goal). Design all three before writing a single line of spec.</div></div>
+  <div class="rbox"><div class="rlbl">Free Resources</div><ul class="rlist">
+    <li><a href="https://huggingface.co/spaces" target="_blank">Hugging Face Spaces — Live AI Demos</a><span class="badge free">FREE</span><span class="rn"> Try thousands of models live without code.</span></li>
+    <li><a href="https://artificialanalysis.ai" target="_blank">Artificial Analysis — Model Benchmarks</a><span class="badge free">FREE</span><span class="rn"> Compare LLMs on speed, quality, and price.</span></li>
+  </ul></div>
+</div>
+
+<!-- ════════════ CH2 ════════════ -->
+<div class="ch-hd" id="ch2">
+  <div class="ch-tags"><span class="ch-nbadge">Chapter 02</span><span class="ch-pill" style="background:var(--c2l);color:var(--c2)">HelloPM Fundamentals</span></div>
+  <h2 class="ch-title" style="color:var(--c2)">PM Fundamentals</h2>
+  <div class="ch-bar" style="background:linear-gradient(90deg,var(--c2),#38bdf8)"></div>
+  <p class="ch-desc">The foundational principles of product management from the HelloPM Field Guide by Ankit Shukla — from the One Rule of PM to the 6-step framework used in real interviews.</p>
+</div>
+
+<div class="topic" id="t2-1">
+  <div class="topic-hd"><span class="tnum">2.1</span><h3 class="ttitle">The One Rule of Product Management</h3><button class="done-btn" onclick="markDone(this,'t2-1')">✓ Mark done</button></div>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">The Value Equation — Every Business Is This Simple</div>
+    <div style="padding:18px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap">
+      <div style="background:#fef3c7;border-radius:10px;padding:14px 18px;text-align:center;min-width:110px">
+        <div style="font-size:22px;margin-bottom:4px">👤</div>
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#92400e;margin-bottom:3px">Customer</div>
+        <div style="font-size:13px;font-weight:800;color:#78350f">Problem<br>or Desire</div>
+      </div>
+      <div style="font-size:20px;font-weight:900;color:var(--ink3)">+</div>
+      <div style="background:#d1fae5;border-radius:10px;padding:14px 18px;text-align:center;min-width:110px">
+        <div style="font-size:22px;margin-bottom:4px">🏢</div>
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#065f46;margin-bottom:3px">Business</div>
+        <div style="font-size:13px;font-weight:800;color:#064e3b">Solution<br>/ Product</div>
+      </div>
+      <div style="font-size:20px;font-weight:900;color:var(--ink3)">=</div>
+      <div style="background:var(--ink);border-radius:10px;padding:14px 18px;text-align:center;min-width:110px">
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:rgba(255,255,255,.6);margin-bottom:3px">Delivers</div>
+        <div style="font-size:16px;font-weight:900;color:#fff">VALUE</div>
+      </div>
+      <div style="font-size:20px;font-weight:900;color:var(--ink3)">→</div>
+      <div style="background:#ede9fe;border-radius:10px;padding:14px 18px;text-align:center;min-width:110px">
+        <div style="font-size:22px;margin-bottom:4px">💰</div>
+        <div style="font-size:9px;font-weight:700;text-transform:uppercase;color:#4c1d95;margin-bottom:3px">Returns</div>
+        <div style="font-size:13px;font-weight:800;color:#3730a3">Money or<br>Attention</div>
+      </div>
+    </div>
+  </div>
+  <div class="cgrid">
+    <div class="ccard" style="border-top:3px solid var(--c3)"><div class="term">📈 Outcome vs Output</div><div class="def"><strong>Outcome</strong> = genuinely helping people solve a problem (retention, revenue, DAU moves). <strong>Output</strong> = just creating something. "I shipped 10 features!" is output. "Users' lives improved" is outcome.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c5)"><div class="term">🏭 Feature Factory Anti-Pattern</div><div class="def">A team that ships features with no real impact. They look productive but achieve nothing. Shipping without impact will stall your PM career. You are judged by metrics achieved, not features shipped.</div></div>
+  </div>
+  <div class="callout purple"><span class="ci">💬</span><div><strong>"Rather than finding customers for your product, find products for your customers."</strong> Start with the human, not the idea. If a solution comes to mind, ask: What problem does it solve? Is this problem important enough? — Ankit Shukla, HelloPM</div></div>
+</div>
+
+<div class="topic" id="t2-2">
+  <div class="topic-hd"><span class="tnum">2.2</span><h3 class="ttitle">The PM Lifecycle</h3><button class="done-btn" onclick="markDone(this,'t2-2')">✓ Mark done</button></div>
+  <p class="body">Product management is a continuous cycle, not a linear path. Every shipped product generates feedback that starts the next iteration. Think of it as a loop that never truly ends.</p>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">The Complete PM Lifecycle</div>
+    <div style="display:flex;flex-direction:column;padding:14px;gap:6px">
+      <div style="display:flex;align-items:stretch;gap:0;overflow-x:auto">
+        <div style="flex:1;min-width:80px;padding:10px;text-align:center;background:#eef2ff;border-right:1px solid #c7d2fe"><div style="font-size:16px">💡</div><div style="font-size:10px;font-weight:700;color:var(--c1);margin-top:3px">Collect Ideas</div><div style="font-size:9.5px;color:#4338ca">Business · Market · Data</div></div>
+        <div style="flex:1;min-width:80px;padding:10px;text-align:center;background:#e0f2fe;border-right:1px solid #bae6fd"><div style="font-size:16px">🔬</div><div style="font-size:10px;font-weight:700;color:var(--c2);margin-top:3px">Validate</div><div style="font-size:9.5px;color:#0369a1">Interviews · Feasibility</div></div>
+        <div style="flex:1;min-width:80px;padding:10px;text-align:center;background:#d1fae5;border-right:1px solid #a7f3d0"><div style="font-size:16px">⚖️</div><div style="font-size:10px;font-weight:700;color:var(--c3);margin-top:3px">Prioritise</div><div style="font-size:9.5px;color:#047857">RICE · ICE · Kano</div></div>
+        <div style="flex:1;min-width:80px;padding:10px;text-align:center;background:#fef3c7;border-right:1px solid #fde68a"><div style="font-size:16px">🗺️</div><div style="font-size:10px;font-weight:700;color:var(--c4);margin-top:3px">Roadmap</div><div style="font-size:9.5px;color:#b45309">Now·Next·Later</div></div>
+        <div style="flex:1;min-width:80px;padding:10px;text-align:center;background:#fee2e2;border-right:1px solid #fecaca"><div style="font-size:16px">📄</div><div style="font-size:10px;font-weight:700;color:var(--c5);margin-top:3px">PRD</div><div style="font-size:9.5px;color:#b91c1c">Why·What·Metrics</div></div>
+        <div style="flex:1;min-width:80px;padding:10px;text-align:center;background:#ede9fe;border-right:1px solid #c4b5fd"><div style="font-size:16px">🏃</div><div style="font-size:10px;font-weight:700;color:var(--c6);margin-top:3px">Sprint</div><div style="font-size:9.5px;color:#5b21b6">Build·Test·Review</div></div>
+        <div style="flex:1;min-width:80px;padding:10px;text-align:center;background:#fce7f3;border-right:1px solid #fbcfe8"><div style="font-size:16px">🚀</div><div style="font-size:10px;font-weight:700;color:var(--c7);margin-top:3px">Ship + GTM</div><div style="font-size:9.5px;color:#9d174d">Launch · Adoption</div></div>
+        <div style="flex:1;min-width:80px;padding:10px;text-align:center;background:#ccfbf1"><div style="font-size:16px">🔄</div><div style="font-size:10px;font-weight:700;color:var(--c8);margin-top:3px">Feedback Loop</div><div style="font-size:9.5px;color:#0f766e">Data → Repeat</div></div>
+      </div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin:12px 0">
+    <div style="background:var(--c1l);border-radius:var(--r);padding:14px;border-top:4px solid var(--c1)">
+      <div style="font-size:26px;font-weight:900;color:var(--c1)">60–70%</div>
+      <div style="font-size:11px;font-weight:800;color:var(--ink);margin:4px 0">DISCOVERY</div>
+      <div style="font-size:11.5px;color:var(--ink2);line-height:1.6">Research · User conversations · Roadmap. This IS the PM's competitive advantage.</div>
+    </div>
+    <div style="background:var(--c2l);border-radius:var(--r);padding:14px;border-top:4px solid var(--c2)">
+      <div style="font-size:26px;font-weight:900;color:var(--c2)">20–30%</div>
+      <div style="font-size:11px;font-weight:800;color:var(--ink);margin:4px 0">DELIVERY</div>
+      <div style="font-size:11.5px;color:var(--ink2);line-height:1.6">PRD · Sprints · Built product. Led by Product Owner in many teams.</div>
+    </div>
+    <div style="background:var(--c3l);border-radius:var(--r);padding:14px;border-top:4px solid var(--c3)">
+      <div style="font-size:26px;font-weight:900;color:var(--c3)">10–20%</div>
+      <div style="font-size:11px;font-weight:800;color:var(--ink);margin:4px 0">DISTRIBUTION</div>
+      <div style="font-size:11.5px;color:var(--ink2);line-height:1.6">GTM · Adoption · Users & revenue. Product Marketing / Growth Manager.</div>
+    </div>
+  </div>
+  <div class="callout note"><span class="ci">🤖</span><div><strong>AI & the lifecycle:</strong> AI compresses every stage. Research synthesis: weeks → hours. PRD drafting: hours → minutes. But AI accelerates execution, not judgment. The PM who picks the right problem still wins. AI makes the gap between great and average PMs wider — faster. — HelloPM</div></div>
+</div>
+
+<div class="topic" id="t2-3">
+  <div class="topic-hd"><span class="tnum">2.3</span><h3 class="ttitle">Product Sense — The #1 PM Skill</h3><button class="done-btn" onclick="markDone(this,'t2-3')">✓ Mark done</button></div>
+  <p class="body">Product sense is the ability to anticipate what users will value and make sound decisions about what to build. It has three components and is the real differentiation between a great PM and an ordinary one. — HelloPM</p>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">The Product Sense Triangle</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:14px">
+      <div style="background:#fef3c7;border-radius:9px;padding:14px;text-align:center">
+        <div style="font-size:28px;margin-bottom:6px">🧠</div>
+        <div style="font-size:12px;font-weight:800;color:#92400e;margin-bottom:5px;text-transform:uppercase">Empathy</div>
+        <div style="font-size:11.5px;color:#78350f;line-height:1.6">Understanding the problem space — who are the users, what problems are they facing?</div>
+        <div style="font-size:10.5px;color:#92400e;margin-top:7px;font-style:italic">Slack felt the pain of searching 40 emails to find one decision.</div>
+      </div>
+      <div style="background:#d1fae5;border-radius:9px;padding:14px;text-align:center">
+        <div style="font-size:28px;margin-bottom:6px">💡</div>
+        <div style="font-size:12px;font-weight:800;color:#065f46;margin-bottom:5px;text-transform:uppercase">Creativity</div>
+        <div style="font-size:11.5px;color:#064e3b;line-height:1.6">Coming up with the right solutions — not just better email, but channels (a new metaphor).</div>
+        <div style="font-size:10.5px;color:#065f46;margin-top:7px;font-style:italic">Duolingo made learning feel like a game, not a classroom.</div>
+      </div>
+      <div style="background:#ede9fe;border-radius:9px;padding:14px;text-align:center">
+        <div style="font-size:28px;margin-bottom:6px">⚖️</div>
+        <div style="font-size:12px;font-weight:800;color:#4c1d95;margin-bottom:5px;text-transform:uppercase">Decision</div>
+        <div style="font-size:11.5px;color:#3730a3;line-height:1.6">Prioritising among conflicting solutions, understanding trade-offs with conviction.</div>
+        <div style="font-size:10.5px;color:#4c1d95;margin-top:7px;font-style:italic">Instagram launched with ONLY photo sharing + filters. That focus won 10M users in a year.</div>
+      </div>
+    </div>
+  </div>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Product Sense in Action: With vs Without</div>
+    <div style="padding:14px;display:flex;flex-direction:column;gap:8px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="background:#fee2e2;border-radius:7px;padding:11px;border-top:3px solid #ef4444"><div style="font-size:9.5px;font-weight:800;color:#991b1b;margin-bottom:4px">❌ WITHOUT PRODUCT SENSE</div><div style="font-size:11px;font-weight:700;color:#7f1d1d;margin-bottom:3px">Sales asks for a dashboard</div><div style="font-size:11.5px;color:#991b1b">Adds "dashboard" to roadmap immediately because "5 clients asked for it."</div></div>
+        <div style="background:#d1fae5;border-radius:7px;padding:11px;border-top:3px solid #10b981"><div style="font-size:9.5px;font-weight:800;color:#065f46;margin-bottom:4px">✅ WITH PRODUCT SENSE</div><div style="font-size:11px;font-weight:700;color:#064e3b;margin-bottom:3px">Sales asks for a dashboard</div><div style="font-size:11.5px;color:#065f46">Asks: "What decisions will the dashboard help them make?" Discovers they need <strong>automated alerts</strong>, not a dashboard.</div></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="background:#fee2e2;border-radius:7px;padding:11px;border-top:3px solid #ef4444"><div style="font-size:9.5px;font-weight:800;color:#991b1b;margin-bottom:4px">❌ WITHOUT PRODUCT SENSE</div><div style="font-size:11px;font-weight:700;color:#7f1d1d;margin-bottom:3px">User says "I want dark mode"</div><div style="font-size:11.5px;color:#991b1b">Ships dark mode. Checks the box. Moves on.</div></div>
+        <div style="background:#d1fae5;border-radius:7px;padding:11px;border-top:3px solid #10b981"><div style="font-size:9.5px;font-weight:800;color:#065f46;margin-bottom:4px">✅ WITH PRODUCT SENSE</div><div style="font-size:11px;font-weight:700;color:#064e3b;margin-bottom:3px">User says "I want dark mode"</div><div style="font-size:11.5px;color:#065f46">Asks "When do you use the app?" Discovers: eye strain at night. <strong>Reading mode with adjustable brightness</strong> might be better.</div></div>
+      </div>
+    </div>
+  </div>
+  <div class="callout tip"><span class="ci">🚀</span><div><strong>AI & Product Sense in 2026:</strong> AI can generate 50 feature ideas in 10 seconds. That makes product sense more valuable, not less. When solutions are cheap to generate, the ability to kill the wrong ideas fastest becomes the bottleneck. — HelloPM</div></div>
+</div>
+
+<div class="topic" id="t2-4">
+  <div class="topic-hd"><span class="tnum">2.4</span><h3 class="ttitle">Problem Space vs Solution Space</h3><button class="done-btn" onclick="markDone(this,'t2-4')">✓ Mark done</button></div>
+  <p class="body">The most critical mental model in product management. Always start with the Problem Space. Never jump to solutions. Jumping to conclusions is the most expensive habit in product management. — Ankit Shukla</p>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Cross the Threshold Only After Understanding the Problem</div>
+    <div style="display:grid;grid-template-columns:1fr 42px 1fr;padding:14px;gap:0;align-items:stretch">
+      <div style="background:var(--c5l);border-radius:9px 0 0 9px;padding:16px">
+        <div style="font-size:10px;font-weight:800;color:var(--c5);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">🔍 Problem Space — Start Here Always</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="background:#fff;border-radius:6px;padding:7px 11px;font-size:11.5px;color:var(--ink2);border-left:3px solid var(--c5)">What's the problem & why does it matter?</div>
+          <div style="background:#fff;border-radius:6px;padding:7px 11px;font-size:11.5px;color:var(--ink2);border-left:3px solid var(--c5)">Who are the users & how are they affected?</div>
+          <div style="background:#fff;border-radius:6px;padding:7px 11px;font-size:11.5px;color:var(--ink2);border-left:3px solid var(--c5)">What alternatives exist today?</div>
+          <div style="background:#fff;border-radius:6px;padding:7px 11px;font-size:11.5px;color:var(--ink2);border-left:3px solid var(--c5)">Is there evidence this problem is real?</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;background:var(--ink);color:#fff;font-size:9px;font-weight:800;writing-mode:vertical-lr;text-orientation:mixed;letter-spacing:.1em;text-transform:uppercase">THRESHOLD</div>
+      <div style="background:var(--c3l);border-radius:0 9px 9px 0;padding:16px">
+        <div style="font-size:10px;font-weight:800;color:var(--c3);text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">💡 Solution Space — Earn the Right</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="background:#fff;border-radius:6px;padding:7px 11px;font-size:11.5px;color:var(--ink2);border-left:3px solid var(--c3)">What solutions address the core issue?</div>
+          <div style="background:#fff;border-radius:6px;padding:7px 11px;font-size:11.5px;color:var(--ink2);border-left:3px solid var(--c3)">What are the trade-offs and constraints?</div>
+          <div style="background:#fff;border-radius:6px;padding:7px 11px;font-size:11.5px;color:var(--ink2);border-left:3px solid var(--c3)">How will we measure success?</div>
+          <div style="background:#fff;border-radius:6px;padding:7px 11px;font-size:11.5px;color:var(--ink2);border-left:3px solid var(--c3)">Can we build and ship this realistically?</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="callout danger"><span class="ci">🚫</span><div><strong>Interview Killer:</strong> When asked "How would you improve Zoom?", aspiring PMs immediately suggest features. In PM interviews, <strong>you can get rejected within the first 2 minutes</strong> for this. Interviewers want to understand your thinking process, not just your answer. — HelloPM</div></div>
+  <table class="tbl"><thead><tr><th>User Says</th><th>Real Problem</th><th>Great PM Builds</th></tr></thead><tbody>
+  <tr><td>"Add a calendar view"</td><td>Users struggle to see upcoming tasks at a glance</td><td>Smart "Up Next" widget — surfaces 3 most urgent tasks</td></tr>
+  <tr><td>"Make checkout faster"</td><td>Users abandon carts over return policy uncertainty</td><td>Trust banner: "Free returns within 7 days." Zero checkout engineering needed.</td></tr>
+  <tr><td>"We need a chat feature"</td><td>Sellers can't communicate delivery updates to buyers</td><td>Automated delivery status via push notifications. No chat needed.</td></tr>
+  <tr><td>"Add filters to search"</td><td>Search results are irrelevant</td><td>Fix the ranking algorithm. Filters are a band-aid for bad search.</td></tr>
+  </tbody></table>
+</div>
+
+<div class="topic" id="t2-5">
+  <div class="topic-hd"><span class="tnum">2.5</span><h3 class="ttitle">The 6-Step Product Sense Framework</h3><button class="done-btn" onclick="markDone(this,'t2-5')">✓ Mark done</button></div>
+  <p class="body">From the HelloPM Field Guide. Steps 1–3 are the Problem Space. Steps 4–6 are the Solution Space. This is NOT a waterfall — you can always go backward to correct earlier decisions.</p>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">The 6-Step Framework</div>
+    <div style="display:flex;align-items:stretch;overflow-x:auto;padding:14px;gap:4px">
+      <div style="flex:1;min-width:80px;padding:12px 8px;text-align:center;background:#fee2e2;border-radius:7px">
+        <div style="font-size:20px;font-weight:900;color:#ef4444">1</div>
+        <div style="font-size:10px;font-weight:800;color:#991b1b;text-transform:uppercase;margin:3px 0">Business</div>
+        <div style="font-size:10px;color:#7f1d1d">Context & goals</div>
+      </div>
+      <div style="display:flex;align-items:center;padding:0 4px;font-size:12px;color:var(--ink3)">→</div>
+      <div style="flex:1;min-width:80px;padding:12px 8px;text-align:center;background:#fef3c7;border-radius:7px">
+        <div style="font-size:20px;font-weight:900;color:#f59e0b">2</div>
+        <div style="font-size:10px;font-weight:800;color:#92400e;text-transform:uppercase;margin:3px 0">Users</div>
+        <div style="font-size:10px;color:#78350f">Behaviour-based</div>
+      </div>
+      <div style="display:flex;align-items:center;padding:0 4px;font-size:12px;color:var(--ink3)">→</div>
+      <div style="flex:1;min-width:80px;padding:12px 8px;text-align:center;background:#ede9fe;border-radius:7px;border-right:2px solid var(--ink)">
+        <div style="font-size:20px;font-weight:900;color:#7c3aed">3</div>
+        <div style="font-size:10px;font-weight:800;color:#4c1d95;text-transform:uppercase;margin:3px 0">Problems</div>
+        <div style="font-size:10px;color:#3730a3">Expected + latent</div>
+      </div>
+      <div style="display:flex;align-items:center;padding:0 4px;font-size:12px;color:var(--ink3)">→</div>
+      <div style="flex:1;min-width:80px;padding:12px 8px;text-align:center;background:#d1fae5;border-radius:7px">
+        <div style="font-size:20px;font-weight:900;color:#10b981">4</div>
+        <div style="font-size:10px;font-weight:800;color:#065f46;text-transform:uppercase;margin:3px 0">Solutions</div>
+        <div style="font-size:10px;color:#064e3b">Creative options</div>
+      </div>
+      <div style="display:flex;align-items:center;padding:0 4px;font-size:12px;color:var(--ink3)">→</div>
+      <div style="flex:1;min-width:80px;padding:12px 8px;text-align:center;background:#dbeafe;border-radius:7px">
+        <div style="font-size:20px;font-weight:900;color:#3b82f6">5</div>
+        <div style="font-size:10px;font-weight:800;color:#1e40af;text-transform:uppercase;margin:3px 0">Metrics</div>
+        <div style="font-size:10px;color:#1e3a8a">Success criteria</div>
+      </div>
+      <div style="display:flex;align-items:center;padding:0 4px;font-size:12px;color:var(--ink3)">→</div>
+      <div style="flex:1;min-width:80px;padding:12px 8px;text-align:center;background:#fce7f3;border-radius:7px">
+        <div style="font-size:20px;font-weight:900;color:#ec4899">6</div>
+        <div style="font-size:10px;font-weight:800;color:#9d174d;text-transform:uppercase;margin:3px 0">Recommend</div>
+        <div style="font-size:10px;color:#831843">Final pick + why</div>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:10.5px;color:var(--ink3);padding:0 14px 12px;font-style:italic">← Problem Space (1–3) | Solution Space (4–6) → · Not a waterfall — go back anytime</div>
+  </div>
+
+  <div class="qlbl">Worked Example — Improving Google Maps (HelloPM)</div>
+  <div class="qa" onclick="toggleQA(this)">
+    <div class="qa-q"><span class="qb">Q</span><span class="qsb" style="background:#dbeafe;color:#1e40af">Google</span><span class="qt">How would you improve Google Maps? Walk me through your thinking.</span><span class="qarr">▶</span></div>
+    <div class="qa-a"><div class="albl">Full 6-Step Answer (HelloPM Field Guide)</div>
+    <p><strong>Step 1 — Business Context:</strong> Google Maps monetised through ads and API sales. Key goal: increase active users and retention (more screen time = more ad exposure). Trade-off: retention over growth.</p>
+    <p><strong>Step 2 — User Segments (behaviour-based):</strong> Daily commuters, Travelers, Business seekers, Gig workers. <strong>Prioritised: Travelers</strong> — huge untapped market, many unique problems, more likely to interact with ads.</p>
+    <p><strong>Step 3 — Problems (latent need):</strong> "Accessing all travel-related information from one place" — tickets, identity docs, hotel reservations scattered across apps. Huge anxiety point.</p>
+    <p><strong>Step 4 — Solutions scored:</strong></p>
+    <ul>
+      <li>Manual Upload (Trip Planner): Impact 1, Effort 2, Score 0.5</li>
+      <li>Google Travel Vault (aggregate existing data): Impact 3, Effort 3, Score 1.0</li>
+      <li><strong>Agentic Travel Assistant (proactive, location-aware): Impact 4, Effort 4, Score 1.25 ✓ Winner</strong></li>
+    </ul>
+    <p><strong>Step 5–6 — Metrics + Recommendation:</strong> Build an agentic travel planner that aggregates all travel info in one place, bringing users to Google Maps repeatedly during travel → better retention → more data → more ad revenue. Success metric: sessions per traveler trip.</p>
+    <div class="qsrc">HelloPM Field Guide — Worked Example · Ankit Shukla</div></div>
+  </div>
+</div>
+
+<!-- ════════════ CH3 ════════════ -->
+<div class="ch-hd" id="ch3">
+  <div class="ch-tags"><span class="ch-nbadge">Chapter 03</span><span class="ch-pill" style="background:var(--c3l);color:var(--c3)">HelloPM Research</span></div>
+  <h2 class="ch-title" style="color:var(--c3)">User Research</h2>
+  <div class="ch-bar" style="background:linear-gradient(90deg,var(--c3),#34d399)"></div>
+  <p class="ch-desc">Most startups fail because they build something no one needs. CB Insights: "no market need" is the #1 reason businesses fail at 42%. Research replaces guesses with evidence.</p>
+</div>
+
+<div class="topic" id="t3-1">
+  <div class="topic-hd"><span class="tnum">3.1</span><h3 class="ttitle">Why Research Matters</h3><button class="done-btn" onclick="markDone(this,'t3-1')">✓ Mark done</button></div>
+  <div class="cgrid">
+    <div class="ccard" style="border-top:3px solid var(--c5)"><div class="term">🚫 What Average PMs Do Wrong</div><div class="def">Act on opinions (their own, leadership's, or sales') without understanding the basis. Rarely interact with users. Ask leading questions: "Will you find this useful?" who says no?</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c3)"><div class="term">✅ What Great PMs Do</div><div class="def">Validate whether the problem EXISTS AND how important it is. Talk to at least one user every week. Uncover latent needs users can't articulate. Convert insights to roadmap changes immediately.</div></div>
+  </div>
+  <div class="ex">
+    <div class="elbl">How Top Companies Ensure Research Happens</div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <div class="sc"><strong>Meta:</strong> Always asks "What is the people problem behind the product problem?"</div>
+      <div class="sc"><strong>Meesho:</strong> Takes teams to Tier 2/3 seller offices. New PM hires act as customer support for two weeks.</div>
+      <div class="sc"><strong>Intuit "Follow Me Home":</strong> PMs visit client offices and observe. Discovered users minimizing QuickBooks and copying data from Excel to paste back — invisible in analytics.</div>
+      <div class="sc"><strong>Amazon PRFAQ:</strong> Before any budget, you must write a 6-page Press Release + FAQ document from the user's perspective.</div>
+    </div>
+  </div>
+</div>
+
+<div class="topic" id="t3-2">
+  <div class="topic-hd"><span class="tnum">3.2</span><h3 class="ttitle">User Interviews & The Mom Test</h3><button class="done-btn" onclick="markDone(this,'t3-2')">✓ Mark done</button></div>
+  <p class="body">Humans are biased toward giving positive feedback, not correct feedback. The Mom Test: if you ask the right questions, even your mom cannot lie. Instead of "Mom, am I fat?" — stand on a weighing scale and ask her to read the number. — Rob Fitzpatrick / HelloPM</p>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Bad Questions vs Good Questions</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:14px">
+      <div style="background:#fee2e2;border-radius:8px;padding:12px">
+        <div style="font-size:9.5px;font-weight:800;color:#991b1b;margin-bottom:7px;text-transform:uppercase">❌ Bad Questions</div>
+        <div style="font-size:11.5px;color:#7f1d1d;line-height:2">"Is this a good idea?"<br>"Would you buy this product?"<br>"How much would you pay?"<br>"Would you use an AI PM assistant?"</div>
+        <div style="font-size:10.5px;color:#991b1b;margin-top:7px;font-style:italic">Ask about the future → get opinions, not data.</div>
+      </div>
+      <div style="background:#d1fae5;border-radius:8px;padding:12px">
+        <div style="font-size:9.5px;font-weight:800;color:#065f46;margin-bottom:7px;text-transform:uppercase">✅ Good Questions</div>
+        <div style="font-size:11.5px;color:#064e3b;line-height:2">"Walk me through your current workflow."<br>"How are you solving this problem today?"<br>"Have you tried to find a better solution?"<br>"Tell me about the last time you tried automating your PM work."</div>
+        <div style="font-size:10.5px;color:#065f46;margin-top:7px;font-style:italic">Ask about the past → get facts, not guesses.</div>
+      </div>
+    </div>
+  </div>
+  <div class="rbox"><div class="rlbl">Free Resources</div><ul class="rlist">
+    <li><a href="https://www.momtestbook.com" target="_blank">The Mom Test — Rob Fitzpatrick</a><span class="badge free">FREE</span><span class="rn"> Free summary on site. The most practical guide to user interview questions.</span></li>
+    <li><a href="https://userinterviews.com/blog" target="_blank">User Interviews Blog</a><span class="badge free">FREE</span><span class="rn"> Practical guides on recruiting and running user interviews.</span></li>
+  </ul></div>
+</div>
+
+<div class="topic" id="t3-3">
+  <div class="topic-hd"><span class="tnum">3.3</span><h3 class="ttitle">Jobs to Be Done (JTBD)</h3><button class="done-btn" onclick="markDone(this,'t3-3')">✓ Mark done</button></div>
+  <p class="body">People don't buy products — they hire products to do a job in their life. Understanding the real job unlocks better product decisions than demographics or features ever will.</p>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Three Layers of Human Motivation (HelloPM)</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:14px">
+      <div style="background:#dbeafe;border-radius:9px;padding:14px;text-align:center">
+        <div style="font-size:28px;margin-bottom:5px">⚙️</div>
+        <div style="font-size:11px;font-weight:800;color:#1e40af;text-transform:uppercase;margin-bottom:4px">Functional</div>
+        <div style="font-size:11.5px;color:#1e3a8a;line-height:1.6">"Does it work? Is it faster or cheaper?"<br><br>Buying a drill to make a hole.</div>
+      </div>
+      <div style="background:#fce7f3;border-radius:9px;padding:14px;text-align:center">
+        <div style="font-size:28px;margin-bottom:5px">❤️</div>
+        <div style="font-size:11px;font-weight:800;color:#9d174d;text-transform:uppercase;margin-bottom:4px">Emotional</div>
+        <div style="font-size:11.5px;color:#831843;line-height:1.6">"How do I feel about myself using this?"<br><br>First family car = "I have arrived in life."</div>
+      </div>
+      <div style="background:#f5f3ff;border-radius:9px;padding:14px;text-align:center">
+        <div style="font-size:28px;margin-bottom:5px">👥</div>
+        <div style="font-size:11px;font-weight:800;color:#5b21b6;text-transform:uppercase;margin-bottom:4px">Social</div>
+        <div style="font-size:11.5px;color:#4c1d95;line-height:1.6">"What will others think of me?"<br><br>Curating LinkedIn posts carefully.</div>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:11.5px;color:var(--ink3);padding:0 14px 12px;font-style:italic">"They don't want a drill. They don't even want a hole. They want the memory on the wall." — Clayton Christensen</div>
+  </div>
+  <div class="ex">
+    <div class="elbl">JTBD Statement Format</div>
+    <p style="font-size:12.5px;font-weight:700;color:var(--ink);margin-bottom:8px">"When I am [situation], I want to [motivation], so that I can [expected outcome]."</p>
+    <div class="sc"><strong>Spotify at gym:</strong> "When I'm working out, I want to listen to high-energy music, so that I can stay motivated."</div>
+    <div class="sc"><strong>Zomato at 8pm:</strong> "When I'm too tired to cook, I want to order from my favourite restaurant, so that I can relax and enjoy a good meal."</div>
+    <div class="sc"><strong>LinkedIn passive seeker:</strong> "When I feel undervalued, I want to know my market value vs peers, so that I can decide whether to explore other opportunities."</div>
+  </div>
+  <div class="callout warn"><span class="ci">⚠️</span><div><strong>Common PM Mistake:</strong> New PMs overbet on functional JTBD and forget emotional and social JTBD. People don't want a drill, they want a hole. They don't even want a hole — they want to relive the memory with the painting on the wall. — HelloPM</div></div>
+</div>
+
+<div class="topic" id="t3-4">
+  <div class="topic-hd"><span class="tnum">3.4</span><h3 class="ttitle">Personas & Customer Journey Maps</h3><button class="done-btn" onclick="markDone(this,'t3-4')">✓ Mark done</button></div>
+  <p class="body">A persona is a representation of your user based on real research data. It makes abstract users concrete and forces product decisions to be made for a specific person, not a vague demographic. — HelloPM</p>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);padding:14px;margin:12px 0">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px">
+      <div style="width:40px;height:40px;background:#fef3c7;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🍛</div>
+      <div><div style="font-size:13px;font-weight:800;color:var(--ink)">Bhavna Rao — "Busy Bengaluru Bhavna"</div><div style="font-size:11px;color:var(--ink3)">28, Software Engineer, Koramangala · Swiggy power user</div></div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;font-size:12px">
+      <div><strong>JTBD:</strong> "I want to eat something good without spending mental energy deciding."</div>
+      <div><strong>Frustrations:</strong> Too many restaurants = decision fatigue. Delivery estimate off by 10–15 min.</div>
+      <div><strong>Behaviour:</strong> Orders 4–5x/week. Browses &lt;3 min. Almost always picks from "Reorder."</div>
+      <div style="background:#d1fae5;border-radius:6px;padding:8px"><strong>Product Implication:</strong> The winning feature isn't more restaurants — it's a single-tap "Your Usual" button. The entire discovery UI is noise for this persona.</div>
+    </div>
+  </div>
+  <table class="tbl"><thead><tr><th>Journey Phase</th><th>What Happens</th><th>Pain Point</th><th>Opportunity</th></tr></thead><tbody>
+  <tr><td><strong>1. Awareness</strong></td><td>Sees billboard ad. Colleague mentions Zomato.</td><td>No pain yet.</td><td>Colleague referral > billboard. Invest in referral programs.</td></tr>
+  <tr><td><strong>2. Onboarding</strong></td><td>Signs up. Sets address. Browses. Decision fatigue.</td><td>"Popular near you" too generic.</td><td>"New in town?" flow: curated top 5 within 2km.</td></tr>
+  <tr><td><strong>3. First Order</strong></td><td>Picks biryani. Pays UPI. Anxious: "Will it come in 30 min?"</td><td>No live tracking for first 10 min. Anxiety spikes.</td><td>Push notification within 2 min: "Your order is confirmed!"</td></tr>
+  <tr><td><strong>4. Retention</strong></td><td>"Reorder your biryani?" notification next week.</td><td>Generic "We miss you" notifications feel spammy.</td><td>If first order had issues: personalised apology + credit.</td></tr>
+  </tbody></table>
+  <div class="callout tip"><span class="ci">💡</span><div><strong>Journey Mapping Tip:</strong> The biggest opportunity is almost always at the transition between phases — from consideration to onboarding, or from first use to habit formation. That's where users drop off silently. — HelloPM</div></div>
+</div>
+
+<!-- ════════════ CH4 ════════════ -->
+<div class="ch-hd" id="ch4">
+  <div class="ch-tags"><span class="ch-nbadge">Chapter 04</span><span class="ch-pill" style="background:var(--c4l);color:var(--c4)">Frameworks & Strategy</span></div>
+  <h2 class="ch-title" style="color:var(--c4)">Prioritisation & Strategy</h2>
+  <div class="ch-bar" style="background:linear-gradient(90deg,var(--c4),#fbbf24)"></div>
+  <p class="ch-desc">Deciding what to build next and how to frame long-term vision — from the Kano Model to Hamilton Helmer's 7 Strategic Powers. The most under-developed skill in product management.</p>
+</div>
+
+<div class="topic" id="t4-1">
+  <div class="topic-hd"><span class="tnum">4.1</span><h3 class="ttitle">The Kano Model</h3><button class="done-btn" onclick="markDone(this,'t4-1')">✓ Mark done</button></div>
+  <p class="body">Named after Professor Kano. Answers the question every PM faces: "We have 20 ideas and resources for 3. Which 3?" Categorises features based on their relationship to user satisfaction.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:12px 0">
+    <div style="background:#fee2e2;border-radius:var(--r);padding:14px;border-top:4px solid #ef4444">
+      <div style="font-size:20px;margin-bottom:5px">🔧</div>
+      <div style="font-size:12px;font-weight:800;color:#991b1b;margin-bottom:5px">Must-Haves</div>
+      <div style="font-size:11.5px;color:#7f1d1d;line-height:1.6;margin-bottom:7px">Users assume these. Absent → strong dissatisfaction. Present → no appreciation.</div>
+      <div style="font-size:10.5px;color:#991b1b"><strong>Examples:</strong> Login reliability, UPI in payment apps, calling on a phone</div>
+    </div>
+    <div style="background:#d1fae5;border-radius:var(--r);padding:14px;border-top:4px solid #10b981">
+      <div style="font-size:20px;margin-bottom:5px">📈</div>
+      <div style="font-size:12px;font-weight:800;color:#065f46;margin-bottom:5px">Performance</div>
+      <div style="font-size:11.5px;color:#064e3b;line-height:1.6;margin-bottom:7px">Satisfaction increases linearly. More = more satisfied. Less = less satisfied.</div>
+      <div style="font-size:10.5px;color:#065f46"><strong>Examples:</strong> Delivery speed, search relevance, battery life, ETA accuracy</div>
+    </div>
+    <div style="background:#ede9fe;border-radius:var(--r);padding:14px;border-top:4px solid #7c3aed">
+      <div style="font-size:20px;margin-bottom:5px">✨</div>
+      <div style="font-size:12px;font-weight:800;color:#4c1d95;margin-bottom:5px">Delighters</div>
+      <div style="font-size:11.5px;color:#3730a3;line-height:1.6;margin-bottom:7px">Disproportionate delight when present. No dissatisfaction when absent.</div>
+      <div style="font-size:10.5px;color:#4c1d95"><strong>Examples:</strong> AI editing, face unlock, smart recommendations, Gmail attachment reminder</div>
+    </div>
+  </div>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Kano Drift — Delight Erodes Into Expectation</div>
+    <div style="display:flex;align-items:center;padding:14px;gap:6px;overflow-x:auto">
+      <div style="flex:1;min-width:100px;padding:12px;text-align:center;background:#ede9fe;border-radius:9px">
+        <div style="font-size:20px">🤩</div>
+        <div style="font-size:10px;font-weight:800;color:#4c1d95;margin-top:3px">YESTERDAY</div>
+        <div style="font-size:11px;color:#3730a3;margin-top:3px">"Wow, live tracking! This is amazing!"</div>
+      </div>
+      <div style="font-size:18px;color:var(--ink3);font-weight:700;flex-shrink:0">→</div>
+      <div style="flex:1;min-width:100px;padding:12px;text-align:center;background:#fef3c7;border-radius:9px">
+        <div style="font-size:20px">😐</div>
+        <div style="font-size:10px;font-weight:800;color:#92400e;margin-top:3px">TODAY</div>
+        <div style="font-size:11px;color:#78350f;margin-top:3px">"Yeah, every app has tracking now."</div>
+      </div>
+      <div style="font-size:18px;color:var(--ink3);font-weight:700;flex-shrink:0">→</div>
+      <div style="flex:1;min-width:100px;padding:12px;text-align:center;background:#fee2e2;border-radius:9px">
+        <div style="font-size:20px">😡</div>
+        <div style="font-size:10px;font-weight:800;color:#991b1b;margin-top:3px">TOMORROW</div>
+        <div style="font-size:11px;color:#7f1d1d;margin-top:3px">"Wait, there's NO tracking?! Uninstall."</div>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:11px;color:var(--ink3);padding:0 14px 12px">Swiggy live tracking (2016 delight → 2024 expectation) · Zepto 10-min delivery · Discover Weekly</div>
+  </div>
+  <div class="callout warn"><span class="ci">⚠️</span><div><strong>Three Rules of Kano (HelloPM):</strong> 1) "Never ship delighters on top of broken basics." 2) "In mature products, performance wins the market." 3) "Today's delight is tomorrow's expectation."</div></div>
+</div>
+
+<div class="topic" id="t4-2">
+  <div class="topic-hd"><span class="tnum">4.2</span><h3 class="ttitle">ICE Scoring & Impact-Effort Matrix</h3><button class="done-btn" onclick="markDone(this,'t4-2')">✓ Mark done</button></div>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">ICE Scoring Formula</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;padding:16px;flex-wrap:wrap">
+      <div style="background:#dbeafe;border-radius:9px;padding:12px 16px;text-align:center">
+        <div style="font-size:9.5px;font-weight:700;color:#1e40af;text-transform:uppercase;margin-bottom:3px">I — Impact</div>
+        <div style="font-size:20px;font-weight:900;color:#1e3a8a">1→5</div>
+        <div style="font-size:10px;color:#1e40af">How much does this contribute to your metric?</div>
+      </div>
+      <div style="font-size:22px;font-weight:900;color:var(--ink3)">×</div>
+      <div style="background:#d1fae5;border-radius:9px;padding:12px 16px;text-align:center">
+        <div style="font-size:9.5px;font-weight:700;color:#065f46;text-transform:uppercase;margin-bottom:3px">C — Confidence</div>
+        <div style="font-size:20px;font-weight:900;color:#064e3b">1→5</div>
+        <div style="font-size:10px;color:#065f46">1=gut feeling, 5=proven data</div>
+      </div>
+      <div style="font-size:22px;font-weight:900;color:var(--ink3)">÷</div>
+      <div style="background:#fef3c7;border-radius:9px;padding:12px 16px;text-align:center">
+        <div style="font-size:9.5px;font-weight:700;color:#92400e;text-transform:uppercase;margin-bottom:3px">E — Effort</div>
+        <div style="font-size:20px;font-weight:900;color:#78350f">1→5</div>
+        <div style="font-size:10px;color:#92400e">Estimated by team, not PM</div>
+      </div>
+      <div style="font-size:22px;font-weight:900;color:var(--ink3)">=</div>
+      <div style="background:var(--ink);border-radius:9px;padding:12px 16px;text-align:center">
+        <div style="font-size:9.5px;font-weight:700;color:rgba(255,255,255,.7);text-transform:uppercase;margin-bottom:3px">ICE Score</div>
+        <div style="font-size:20px;font-weight:900;color:#fff">Priority</div>
+      </div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="padding:16px;background:#d1fae5">
+      <div style="font-size:20px;margin-bottom:5px">⭐</div>
+      <div style="font-size:10px;font-weight:800;color:#065f46;text-transform:uppercase;margin-bottom:4px">HIGH IMPACT · LOW EFFORT</div>
+      <div style="font-size:14px;font-weight:800;color:#064e3b;margin-bottom:4px">Quick Wins</div>
+      <div style="font-size:11.5px;color:#065f46">Do these FIRST. Maximum value for minimum investment.</div>
+      <div style="font-size:10.5px;color:#10b981;margin-top:6px;font-style:italic">Instagram Reels launch · Referral features</div>
+    </div>
+    <div style="padding:16px;background:#dbeafe;border-left:1px solid var(--line)">
+      <div style="font-size:20px;margin-bottom:5px">🚀</div>
+      <div style="font-size:10px;font-weight:800;color:#1e40af;text-transform:uppercase;margin-bottom:4px">HIGH IMPACT · HIGH EFFORT</div>
+      <div style="font-size:14px;font-weight:800;color:#1e3a8a;margin-bottom:4px">Big Bets</div>
+      <div style="font-size:11.5px;color:#1e40af">Need due diligence. Test assumptions first.</div>
+      <div style="font-size:10.5px;color:#3b82f6;margin-top:6px;font-style:italic">Jio 5G launch · Apple AirPods</div>
+    </div>
+    <div style="padding:16px;background:#fee2e2;border-top:1px solid var(--line)">
+      <div style="font-size:20px;margin-bottom:5px">💀</div>
+      <div style="font-size:10px;font-weight:800;color:#991b1b;text-transform:uppercase;margin-bottom:4px">LOW IMPACT · LOW EFFORT</div>
+      <div style="font-size:14px;font-weight:800;color:#7f1d1d;margin-bottom:4px">Valley of Death</div>
+      <div style="font-size:11.5px;color:#991b1b">Where PM careers die. Feature factories live here. Lots of tickets closed, zero business value.</div>
+    </div>
+    <div style="padding:16px;background:#f3f4f6;border-top:1px solid var(--line);border-left:1px solid var(--line)">
+      <div style="font-size:20px;margin-bottom:5px">✖️</div>
+      <div style="font-size:10px;font-weight:800;color:#6b7280;text-transform:uppercase;margin-bottom:4px">LOW IMPACT · HIGH EFFORT</div>
+      <div style="font-size:14px;font-weight:800;color:#4b5563;margin-bottom:4px">Discard</div>
+      <div style="font-size:11.5px;color:#6b7280">Revisit only if technology or market changes significantly.</div>
+    </div>
+  </div>
+  <div class="callout danger"><span class="ci">⚠️</span><div><strong>"Most execution problems are actually strategy problems."</strong> — Shreyas Doshi (ex-Stripe, Twitter, Google). If all your features are low impact, you're not doing enough discovery. Your shipping speed does not determine your quality as a PM. Your impact does. — HelloPM</div></div>
+</div>
+
+<div class="topic" id="t4-3">
+  <div class="topic-hd"><span class="tnum">4.3</span><h3 class="ttitle">Vision, Strategy & OKRs</h3><button class="done-btn" onclick="markDone(this,'t4-3')">✓ Mark done</button></div>
+  <p class="body">Strategy is the most under-developed skill in product management. Most PMs confuse goals with strategy, or roadmaps with strategy. Richard Rumelt: "A strategy is not a goal. It is a coherent set of analyses, concepts, policies, and actions that respond to a high-stakes challenge."</p>
+  <div style="display:flex;flex-direction:column;gap:2px;margin:12px 0">
+    <div style="display:flex;align-items:center;border-radius:6px;overflow:hidden;margin-bottom:2px"><div style="padding:9px 12px;font-size:11.5px;font-weight:700;color:#fff;min-width:170px;flex-shrink:0;background:#1e1b4b">Company Mission<span style="margin-left:6px;font-size:9px;background:rgba(255,255,255,.2);padding:1px 5px;border-radius:3px">Permanent</span></div><div style="padding:9px 12px;font-size:12px;color:var(--ink2);flex:1;background:#fff;border:1px solid var(--line);border-left:none;border-radius:0 6px 6px 0">Why do we exist? The ultimate purpose.</div></div>
+    <div style="display:flex;align-items:center;border-radius:6px;overflow:hidden;margin-bottom:2px"><div style="padding:9px 12px;font-size:11.5px;font-weight:700;color:#fff;min-width:170px;flex-shrink:0;background:#312e81">Company Vision<span style="margin-left:6px;font-size:9px;background:rgba(255,255,255,.2);padding:1px 5px;border-radius:3px">5-10 yrs</span></div><div style="padding:9px 12px;font-size:12px;color:var(--ink2);flex:1;background:#fff;border:1px solid var(--line);border-left:none;border-radius:0 6px 6px 0">What does the future look like if we succeed?</div></div>
+    <div style="display:flex;align-items:center;border-radius:6px;overflow:hidden;margin-bottom:2px"><div style="padding:9px 12px;font-size:11.5px;font-weight:700;color:#fff;min-width:170px;flex-shrink:0;background:#4338ca">Company Strategy<span style="margin-left:6px;font-size:9px;background:rgba(255,255,255,.2);padding:1px 5px;border-radius:3px">3-5 yrs</span></div><div style="padding:9px 12px;font-size:12px;color:var(--ink2);flex:1;background:#fff;border:1px solid var(--line);border-left:none;border-radius:0 6px 6px 0">How do we get there? Executive team owns this.</div></div>
+    <div style="display:flex;align-items:center;border-radius:6px;overflow:hidden;margin-bottom:2px"><div style="padding:9px 12px;font-size:11.5px;font-weight:700;color:#fff;min-width:170px;flex-shrink:0;background:#6366f1">Product Vision<span style="margin-left:6px;font-size:9px;background:rgba(255,255,255,.2);padding:1px 5px;border-radius:3px">3-5 yrs</span></div><div style="padding:9px 12px;font-size:12px;color:var(--ink2);flex:1;background:#fff;border:1px solid var(--line);border-left:none;border-radius:0 6px 6px 0">What does the product look like at its best? CPO / VP Product.</div></div>
+    <div style="display:flex;align-items:center;border-radius:6px;overflow:hidden;margin-bottom:2px"><div style="padding:9px 12px;font-size:11.5px;font-weight:700;color:#fff;min-width:170px;flex-shrink:0;background:#818cf8">Product Strategy<span style="margin-left:6px;font-size:9px;background:rgba(255,255,255,.2);padding:1px 5px;border-radius:3px">1-2 yrs</span></div><div style="padding:9px 12px;font-size:12px;color:var(--ink2);flex:1;background:#fff;border:1px solid var(--line);border-left:none;border-radius:0 6px 6px 0">What critical problems to solve, in what sequence?</div></div>
+    <div style="display:flex;align-items:center;border-radius:6px;overflow:hidden;margin-bottom:2px"><div style="padding:9px 12px;font-size:11.5px;font-weight:700;color:#1e1b4b;min-width:170px;flex-shrink:0;background:#a5b4fc">Product Roadmap<span style="margin-left:6px;font-size:9px;background:rgba(0,0,0,.1);padding:1px 5px;border-radius:3px">Quarterly</span></div><div style="padding:9px 12px;font-size:12px;color:var(--ink2);flex:1;background:#fff;border:1px solid var(--line);border-left:none;border-radius:0 6px 6px 0">What are we building and when?</div></div>
+    <div style="display:flex;align-items:center;border-radius:6px;overflow:hidden"><div style="padding:9px 12px;font-size:11.5px;font-weight:700;color:#312e81;min-width:170px;flex-shrink:0;background:#c7d2fe">Sprint Goals<span style="margin-left:6px;font-size:9px;background:rgba(0,0,0,.08);padding:1px 5px;border-radius:3px">1-2 wks</span></div><div style="padding:9px 12px;font-size:12px;color:var(--ink2);flex:1;background:#fff;border:1px solid var(--line);border-left:none;border-radius:0 6px 6px 0">What are we doing this cycle? Individual teams.</div></div>
+  </div>
+
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Hamilton Helmer's 7 Strategic Powers</div>
+    <div style="padding:14px">
+      <table class="tbl">
+        <thead><tr><th>Power</th><th>Mechanism</th><th>Real Example</th><th>When to Build</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Scale Economies</strong></td><td>Per-unit cost declines with volume</td><td>Netflix: content cost spread across 280M+ subs</td><td>Takeoff (rapid growth)</td></tr>
+          <tr><td><strong>Network Effects</strong></td><td>Product improves as more people use it</td><td>Figma: more designers = more community files</td><td>Takeoff</td></tr>
+          <tr><td><strong>Counter-Positioning</strong></td><td>New model incumbent can't copy without self-harm</td><td>Linear vs Jira: Jira can't simplify without losing enterprise</td><td>Origination (pre-PMF)</td></tr>
+          <tr><td><strong>Switching Costs</strong></td><td>Changing to competitor imposes costs</td><td>Notion: deeply customised workspaces, years of content</td><td>Takeoff</td></tr>
+          <tr><td><strong>Branding</strong></td><td>Accumulated trust and identity over time</td><td>Duolingo: Duo the Owl is a cultural icon</td><td>Stability (mature)</td></tr>
+          <tr><td><strong>Cornered Resource</strong></td><td>Exclusive access to valuable asset</td><td>Anthropic: founding team's deep alignment expertise</td><td>Origination</td></tr>
+          <tr><td><strong>Process Power</strong></td><td>Embedded processes hard to replicate</td><td>Toyota Production System, Linear's opinionated culture</td><td>Stability</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="qlbl">Interview Questions</div>
+  <div class="qa" onclick="toggleQA(this)">
+    <div class="qa-q"><span class="qb">Q</span><span class="qsb" style="background:#dbeafe;color:#1e40af">Google · Meta</span><span class="qt">Should Google build a standalone AI therapist product?</span><span class="qarr">▶</span></div>
+    <div class="qa-a"><div class="albl">Model Answer</div>
+    <p><strong>Framework:</strong> Evaluate on user value, business moat, and strategic fit — all three must be strong.</p>
+    <p><strong>User value:</strong> Mental health support has massive unmet demand. Waitlists 3-6 months. Genuine value. ✅</p>
+    <p><strong>Business moat:</strong> Google's potential moats: search data, Android distribution, Gemini. But therapeutic effectiveness data = zero to start. Weak moat at launch. ⚠️</p>
+    <p><strong>Strategic fit:</strong> Google's core business is advertising. Can you advertise to people in mental health crises? The reputational and regulatory risk is enormous. ❌</p>
+    <p><strong>Recommendation: Don't build standalone.</strong> Instead, integrate mental health resources into Search (surface appropriate resources when someone searches in distress), partner with licensed therapy platforms for the clinical layer. Google's moat is on discovery and access, not clinical outcomes.</p>
+    <div class="qsrc">Reported at Google product strategy interviews · 2024-25</div></div>
+  </div>
+</div>
+
+<div class="topic" id="t4-4">
+  <div class="topic-hd"><span class="tnum">4.4</span><h3 class="ttitle">Product Roadmaps</h3><button class="done-btn" onclick="markDone(this,'t4-4')">✓ Mark done</button></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:9px;margin:12px 0">
+    <div style="background:#d1fae5;border-radius:var(--r);padding:14px;border-top:4px solid #10b981"><div style="font-size:22px;font-weight:900;color:#10b981">NOW</div><div style="font-size:22px;font-weight:800;color:#065f46;margin:3px 0">~90%</div><div style="font-size:11.5px;color:#064e3b;line-height:1.6">Detailed PRDs ready. Team knows exactly what to build and why.</div></div>
+    <div style="background:#fef3c7;border-radius:var(--r);padding:14px;border-top:4px solid #f59e0b"><div style="font-size:22px;font-weight:900;color:#f59e0b">NEXT</div><div style="font-size:22px;font-weight:800;color:#92400e;margin:3px 0">~60%</div><div style="font-size:11.5px;color:#78350f;line-height:1.6">Validated problems. Solutions being explored. Will become NOW next cycle.</div></div>
+    <div style="background:#f3f4f6;border-radius:var(--r);padding:14px;border-top:4px solid #9ca3af"><div style="font-size:22px;font-weight:900;color:#6b7280">LATER</div><div style="font-size:22px;font-weight:800;color:#374151;margin:3px 0">~20%</div><div style="font-size:11.5px;color:#6b7280;line-height:1.6">Ideas and hypotheses. May change entirely. OK to be fuzzy here.</div></div>
+  </div>
+  <div class="callout note"><span class="ci">✅</span><div><strong>Roadmap Quality Test (HelloPM):</strong> Can you trace every roadmap item back to (1) a user problem validated through research, (2) a strategic objective, and (3) a measurable outcome? If any item fails this test, it shouldn't be on the roadmap.</div></div>
+</div>
+
+<!-- ════════════ CH5 ════════════ -->
+<div class="ch-hd" id="ch5">
+  <div class="ch-tags"><span class="ch-nbadge">Chapter 05</span><span class="ch-pill" style="background:var(--c5l);color:var(--c5)">AIPM-Specific</span></div>
+  <h2 class="ch-title" style="color:var(--c5)">AI-Specific PM Skills</h2>
+  <div class="ch-bar" style="background:linear-gradient(90deg,var(--c5),#f87171)"></div>
+  <p class="ch-desc">These skills separate an AIPM from a regular PM. Prompt engineering, evals, data strategy, and responsible AI — what interviewers at AI-first companies specifically test for.</p>
+</div>
+
+<div class="topic" id="t5-1">
+  <div class="topic-hd"><span class="tnum">5.1</span><h3 class="ttitle">Prompt Engineering & Context Design</h3><button class="done-btn" onclick="markDone(this,'t5-1')">✓ Mark done</button></div>
+  <p class="body">Prompt engineering is defining the inputs to an LLM to get the best outputs. As AIPM you define the system prompts that govern how your product's AI behaves for every user. A better prompt can improve your product without any ML work.</p>
+  <div class="cgrid">
+    <div class="ccard" style="border-top:3px solid var(--c5)"><div class="term">System Prompt</div><div class="def">Instructions given to the LLM before any user input. Defines persona, constraints, output format, behaviour. This is your core product logic — treat it with the same rigour as code.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c3)"><div class="term">Chain of Thought</div><div class="def">Add "think step by step before giving your final answer." Improves accuracy on complex reasoning tasks. The model's reasoning becomes visible, making errors easier to catch.</div></div>
+  </div>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Before & After — Support Ticket Classifier</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:0;padding:14px;gap:10px">
+      <div>
+        <div style="font-size:9.5px;font-weight:800;color:#991b1b;margin-bottom:5px;text-transform:uppercase">❌ BEFORE (Naive)</div>
+        <div class="codeblock"><pre><span class="kw">System:</span> <span class="str">"You are a helpful assistant."</span>
+
+<span class="cm">// Result: Vague summaries, no structure,
+// inconsistent tone, not actionable</span></pre></div>
+      </div>
+      <div>
+        <div style="font-size:9.5px;font-weight:800;color:#065f46;margin-bottom:5px;text-transform:uppercase">✅ AFTER (Engineered)</div>
+        <div class="codeblock"><pre><span class="kw">System:</span> <span class="str">"You are a tier-1 support analyst.
+When given a ticket, respond ONLY
+with a JSON object:
+{
+  issue: max 15 words,
+  severity: low/medium/high/critical,
+  category: billing/technical/account,
+  action: one sentence,
+  escalate: boolean
+}
+Uncertainty → default to medium."</span></pre></div>
+      </div>
+    </div>
+  </div>
+  <div class="rbox"><div class="rlbl">Free Resources</div><ul class="rlist">
+    <li><a href="https://promptingguide.ai" target="_blank">Prompt Engineering Guide</a><span class="badge free">FREE</span><span class="rn"> Most comprehensive free resource on all prompting techniques.</span></li>
+    <li><a href="https://platform.openai.com/playground" target="_blank">OpenAI Playground</a><span class="badge free">FREE</span><span class="rn"> Test prompts live, adjust temperature, compare models.</span></li>
+  </ul></div>
+</div>
+
+<div class="topic" id="t5-2">
+  <div class="topic-hd"><span class="tnum">5.2</span><h3 class="ttitle">AI Evals — Defining & Measuring Quality</h3><button class="done-btn" onclick="markDone(this,'t5-2')">✓ Mark done</button></div>
+  <p class="body">In AI, quality exists on a spectrum. A model might be excellent on 95% of queries and terrible on 5% — and the 5% might be the cases that matter most. AI evals are your structured quality tests. You define what quality means.</p>
+  <div class="cgrid">
+    <div class="ccard" style="border-top:3px solid var(--c5)"><div class="term">📋 Eval Set</div><div class="def">A curated collection of input-output pairs defining what 'good' looks like. Minimum 200 examples, ideally 500+. The most important asset you'll build for an AI product.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c2)"><div class="term">🤖 LLM-as-Judge</div><div class="def">Use a separate LLM to score outputs automatically. Fast, scalable, cheap. Good for catching regressions at scale. Less reliable than human eval for nuanced quality.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c4)"><div class="term">👤 Human Eval</div><div class="def">Real humans rate model outputs or rank which answer is better. Most accurate signal. Expensive and slow. Use for high-stakes decisions and establishing ground truth.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c6)"><div class="term">🔴 Red Teaming</div><div class="def">Dedicated sessions where your team deliberately tries to break the model. Do this before every significant launch. Find inputs producing harmful, incorrect, or embarrassing outputs.</div></div>
+  </div>
+  <div class="callout tip"><span class="ci">💡</span><div><strong>Evals are your CI/CD pipeline for AI quality.</strong> You wouldn't ship code without tests. Don't ship model changes without evals. Every prompt change or model upgrade triggers a full eval re-run before releasing to production.</div></div>
+</div>
+
+<div class="topic" id="t5-3">
+  <div class="topic-hd"><span class="tnum">5.3</span><h3 class="ttitle">Data Strategy — Flywheels & Cold Start</h3><button class="done-btn" onclick="markDone(this,'t5-3')">✓ Mark done</button></div>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">The Data Flywheel — AI's Most Powerful Moat</div>
+    <div style="padding:16px;display:flex;justify-content:center">
+      <div style="position:relative;width:240px;height:240px">
+        <div style="position:absolute;inset:0;border-radius:50%;border:2px dashed var(--c3)"></div>
+        <div style="position:absolute;top:8px;left:50%;transform:translateX(-50%);background:#d1fae5;border-radius:7px;padding:5px 10px;text-align:center;white-space:nowrap;font-size:11px;font-weight:700;color:#065f46">More Users</div>
+        <div style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:#d1fae5;border-radius:7px;padding:5px 10px;text-align:center;white-space:nowrap;font-size:11px;font-weight:700;color:#065f46">More Data</div>
+        <div style="position:absolute;bottom:8px;left:50%;transform:translateX(-50%);background:#d1fae5;border-radius:7px;padding:5px 10px;text-align:center;white-space:nowrap;font-size:11px;font-weight:700;color:#065f46">Better Model</div>
+        <div style="position:absolute;left:8px;top:50%;transform:translateY(-50%);background:#d1fae5;border-radius:7px;padding:5px 10px;text-align:center;white-space:nowrap;font-size:11px;font-weight:700;color:#065f46">More Value</div>
+        <div style="position:absolute;inset:72px;border-radius:50%;background:var(--c3);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center">
+          <div style="font-size:10px;font-weight:800;color:#fff;text-transform:uppercase">DATA</div>
+          <div style="font-size:10px;font-weight:800;color:rgba(255,255,255,.8)">FLYWHEEL</div>
+        </div>
+        <div style="position:absolute;top:34px;right:34px;font-size:14px;color:var(--c3)">↘</div>
+        <div style="position:absolute;bottom:34px;right:34px;font-size:14px;color:var(--c3)">↙</div>
+        <div style="position:absolute;bottom:34px;left:34px;font-size:14px;color:var(--c3)">↖</div>
+        <div style="position:absolute;top:34px;left:34px;font-size:14px;color:var(--c3)">↗</div>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:11px;color:var(--ink3);padding:0 14px 12px">Amazon, Spotify, Waze — more users = better product for everyone. The hardest moat to replicate.</div>
+  </div>
+  <div class="rbox"><div class="rlbl">Free Resources</div><ul class="rlist">
+    <li><a href="https://evidentlyai.com/blog/ml-monitoring-do-i-need-it" target="_blank">ML Monitoring Guide — Evidently AI</a><span class="badge free">FREE</span><span class="rn"> Best intro to monitoring model drift.</span></li>
+    <li><a href="https://huyenchip.com/blog/" target="_blank">Chip Huyen's Blog — ML Systems</a><span class="badge free">FREE</span><span class="rn"> Best accessible ML systems content for practitioners.</span></li>
+  </ul></div>
+</div>
+
+<div class="topic" id="t5-4">
+  <div class="topic-hd"><span class="tnum">5.4</span><h3 class="ttitle">Responsible AI & Ethics</h3><button class="done-btn" onclick="markDone(this,'t5-4')">✓ Mark done</button></div>
+  <div class="cgrid">
+    <div class="ccard" style="border-top:3px solid var(--c5)"><div class="term">⚠️ Bias in Training Data</div><div class="def">Models inherit biases from historical data. A hiring model trained on past hires replicates past hiring biases. A medical model trained mostly on Western patients performs worse on South Asian patients. Audit data sources.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c2)"><div class="term">🇪🇺 EU AI Act</div><div class="def">Risk-based regulation: Unacceptable (banned) → facial recognition in public. High risk → hiring, medical. Limited risk → chatbots. Know this framework for any product in EU markets.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c3)"><div class="term">🇮🇳 India DPDP Act 2023</div><div class="def">Data principal consent required. Data minimisation. Right to deletion. Key for any India-facing AI product training on Indian user data.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c4)"><div class="term">🔍 Explainability</div><div class="def">Can you explain to a user why the AI made a specific decision? For high-stakes decisions (loan applications, medical diagnoses, content moderation) this is both a user need and often a regulatory requirement.</div></div>
+  </div>
+  <div class="rbox"><div class="rlbl">Free Resources</div><ul class="rlist">
+    <li><a href="https://pair.withgoogle.com/guidebook/" target="_blank">People + AI Research Guidebook — Google PAIR</a><span class="badge free">FREE</span><span class="rn"> Google's practical guide to designing human-centred AI products.</span></li>
+    <li><a href="https://www.anthropic.com/research/core-views-on-ai-safety" target="_blank">Anthropic's Core Views on AI Safety</a><span class="badge free">FREE</span><span class="rn"> Read this before any interview at an AI-first company.</span></li>
+  </ul></div>
+</div>
+
+<!-- ════════════ CH6 TECH FOR PMS ════════════ -->
+<div class="ch-hd" id="ch6">
+  <div class="ch-tags"><span class="ch-nbadge">Chapter 06</span><span class="ch-pill" style="background:var(--c6l);color:var(--c6)">Technical Skills</span><span class="ch-pill" style="background:#fee2e2;color:#991b1b">🔥 NEW</span></div>
+  <h2 class="ch-title" style="color:var(--c6)">Technology for PMs — SQL & Python</h2>
+  <div class="ch-bar" style="background:linear-gradient(90deg,var(--c6),#a78bfa)"></div>
+  <p class="ch-desc">The AIPM who can query their own data, write Python to analyse model outputs, and prototype AI features moves ten times faster. This chapter gives you the technical foundations that matter — without requiring an engineering background.</p>
+</div>
+
+<div class="topic" id="t6-1">
+  <div class="topic-hd"><span class="tnum">6.1</span><h3 class="ttitle">SQL for Product Managers</h3><button class="done-btn" onclick="markDone(this,'t6-1')">✓ Mark done</button></div>
+  <p class="body">SQL is non-negotiable for an AIPM. If you can't query data yourself, you're dependent on analysts with competing priorities. You'll wait days for answers that take 5 minutes. You need 5 SQL patterns that answer 90% of PM questions.</p>
+
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Pattern 1 — COUNT with FILTER: "How many users signed up this month?"</div>
+    <div style="padding:14px">
+    <div class="codeblock"><pre><span class="kw">SELECT</span> <span class="fn">COUNT</span>(*) <span class="kw">AS</span> new_users
+<span class="kw">FROM</span> users
+<span class="kw">WHERE</span> country = <span class="str">'IN'</span>
+  <span class="kw">AND</span> plan = <span class="str">'free'</span>
+  <span class="kw">AND</span> created_at >= <span class="str">'2025-01-01'</span>;</pre></div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Pattern 2 — GROUP BY + ORDER: "Which feature is used most?"</div>
+    <div style="padding:14px">
+    <div class="codeblock"><pre><span class="kw">SELECT</span> feature_name, <span class="fn">COUNT</span>(*) <span class="kw">AS</span> uses
+<span class="kw">FROM</span> events
+<span class="kw">GROUP BY</span> feature_name
+<span class="kw">ORDER BY</span> uses <span class="kw">DESC</span>
+<span class="kw">LIMIT</span> <span class="num">10</span>;</pre></div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Pattern 3 — JOIN: "Which users used the AI feature most?"</div>
+    <div style="padding:14px">
+    <div class="codeblock"><pre><span class="kw">SELECT</span> u.email, <span class="fn">COUNT</span>(e.id) <span class="kw">AS</span> ai_queries
+<span class="kw">FROM</span> users u
+<span class="kw">JOIN</span> events e <span class="kw">ON</span> u.id = e.user_id
+<span class="kw">WHERE</span> e.event_name = <span class="str">'ai_query'</span>
+<span class="kw">GROUP BY</span> u.email
+<span class="kw">ORDER BY</span> ai_queries <span class="kw">DESC</span>;</pre></div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Pattern 4 — RETENTION RATE: "What % of Jan users came back in Feb?"</div>
+    <div style="padding:14px">
+    <div class="codeblock"><pre><span class="kw">SELECT</span>
+  <span class="fn">COUNT</span>(<span class="kw">DISTINCT CASE</span>
+    <span class="kw">WHEN</span> feb_active = <span class="num">1</span> <span class="kw">THEN</span> user_id
+  <span class="kw">END</span>) * <span class="num">100.0</span> / <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> user_id)
+  <span class="kw">AS</span> retention_rate
+<span class="kw">FROM</span> user_cohorts
+<span class="kw">WHERE</span> cohort_month = <span class="str">'2025-01'</span>;</pre></div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Pattern 5 — AI ACTIVATION: "What % of new users tried AI within 7 days?"</div>
+    <div style="padding:14px">
+    <div class="codeblock"><pre><span class="kw">SELECT</span>
+  <span class="fn">COUNT</span>(<span class="kw">DISTINCT CASE</span>
+    <span class="kw">WHEN</span> ai_first_use_date <= signup_date + <span class="num">7</span>
+    <span class="kw">THEN</span> user_id
+  <span class="kw">END</span>) * <span class="num">100.0</span> / <span class="fn">COUNT</span>(<span class="kw">DISTINCT</span> user_id)
+  <span class="kw">AS</span> ai_activation_rate
+<span class="kw">FROM</span> users
+<span class="kw">WHERE</span> signup_date >= <span class="str">'2025-01-01'</span>;</pre></div>
+    </div>
+  </div>
+
+  <div class="rbox"><div class="rlbl">Free Resources — Learn SQL as a PM</div><ul class="rlist">
+    <li><a href="https://mode.com/sql-tutorial/" target="_blank">Mode Analytics SQL Tutorial</a><span class="badge free">FREE</span><span class="rn"> Best SQL tutorial for PMs. Interactive with real datasets. ~10 hours.</span></li>
+    <li><a href="https://sqlzoo.net" target="_blank">SQLZoo — Interactive Practice</a><span class="badge free">FREE</span><span class="rn"> Practice SQL with immediate feedback.</span></li>
+    <li><a href="https://www.w3schools.com/sql/" target="_blank">W3Schools SQL Reference</a><span class="badge free">FREE</span><span class="rn"> Quick reference for any SQL syntax.</span></li>
+  </ul></div>
+</div>
+
+<div class="topic" id="t6-2">
+  <div class="topic-hd"><span class="tnum">6.2</span><h3 class="ttitle">Python for AI & ML Product Managers</h3><button class="done-btn" onclick="markDone(this,'t6-2')">✓ Mark done</button></div>
+  <p class="body">You don't need to be a developer. But basic Python lets you prototype AI features, run quick analyses, call LLM APIs, and understand what your engineers are actually building. These four patterns cover 80% of what AIPMs actually need.</p>
+
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:#312e81;padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Pattern 1 — Call the Claude API (most important AIPM skill)</div>
+    <div style="padding:14px">
+    <div class="codeblock"><pre><span class="kw">import</span> anthropic
+
+client = anthropic.Anthropic()
+
+message = client.messages.create(
+    model=<span class="str">"claude-sonnet-4-5"</span>,
+    max_tokens=<span class="num">1024</span>,
+    system=<span class="str">"You are a PM assistant that analyses user feedback."</span>,
+    messages=[{
+        <span class="str">"role"</span>: <span class="str">"user"</span>,
+        <span class="str">"content"</span>: <span class="str">"Summarise the top 3 user complaints: ..."</span>
+    }]
+)
+
+<span class="fn">print</span>(message.content[<span class="num">0</span>].text)
+<span class="cm"># Returns: structured analysis of user complaints</span></pre></div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:#064e3b;padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Pattern 2 — Analyse Product Metrics with Pandas</div>
+    <div style="padding:14px">
+    <div class="codeblock"><pre><span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+df = pd.<span class="fn">read_csv</span>(<span class="str">'user_events.csv'</span>)
+
+<span class="cm"># Day-7 retention rate</span>
+d7_users = df[df[<span class="str">'days_since_signup'</span>] == <span class="num">7</span>][<span class="str">'user_id'</span>].<span class="fn">nunique</span>()
+total_users = df[<span class="str">'user_id'</span>].<span class="fn">nunique</span>()
+rate = d7_users / total_users * <span class="num">100</span>
+<span class="fn">print</span>(<span class="str">f"Day-7 retention: {rate:.1f}%"</span>)
+
+<span class="cm"># Top 10 features by usage</span>
+top = df.<span class="fn">groupby</span>(<span class="str">'feature'</span>)[<span class="str">'user_id'</span>].\
+      <span class="fn">count</span>().<span class="fn">sort_values</span>(ascending=<span class="kw">False</span>).<span class="fn">head</span>(<span class="num">10</span>)
+<span class="fn">print</span>(top)</pre></div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:#7c2d12;padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Pattern 3 — Analyse 20 User Interview Transcripts in Seconds</div>
+    <div style="padding:14px">
+    <div class="codeblock"><pre><span class="kw">import</span> anthropic
+
+client = anthropic.Anthropic()
+
+<span class="kw">def</span> <span class="fn">analyse_interviews</span>(transcripts: list[str]) -> str:
+    combined = <span class="str">"\n\n---\n\n"</span>.<span class="fn">join</span>(transcripts)
+    
+    response = client.messages.<span class="fn">create</span>(
+        model=<span class="str">"claude-sonnet-4-5"</span>,
+        max_tokens=<span class="num">2000</span>,
+        system=<span class="str">"""You are a UX researcher. Extract:
+1. Top 5 pain points (with frequency)
+2. Top 3 desired features
+3. Key JTBD statements
+4. Say-do gaps observed
+Return as structured JSON."""</span>,
+        messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: combined}]
+    )
+    <span class="kw">return</span> response.content[<span class="num">0</span>].text
+
+<span class="cm"># What used to take 3 days now takes 30 seconds</span>
+insights = <span class="fn">analyse_interviews</span>(interview_transcripts)</pre></div>
+    </div>
+  </div>
+
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:#4c1d95;padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Pattern 4 — Build a Simple RAG System for Your Product Docs</div>
+    <div style="padding:14px">
+    <div class="codeblock"><pre><span class="kw">import</span> anthropic
+
+client = anthropic.Anthropic()
+
+<span class="cm"># In production, use a vector DB (Pinecone/Weaviate) for retrieval</span>
+product_docs = [
+    <span class="str">"Feature A does X when user does Y..."</span>,
+    <span class="str">"Feature B pricing: ₹500/month for Pro..."</span>,
+    <span class="str">"Known issue: Feature C fails on mobile when..."</span>
+]
+
+<span class="kw">def</span> <span class="fn">answer_from_docs</span>(question: str) -> str:
+    context = <span class="str">"\n\n"</span>.<span class="fn">join</span>(product_docs)
+    
+    response = client.messages.<span class="fn">create</span>(
+        model=<span class="str">"claude-sonnet-4-5"</span>,
+        max_tokens=<span class="num">500</span>,
+        system=<span class="str">f"""Answer using ONLY this context:
+{context}
+
+If the answer isn't in the context, say
+"I don't have that info."
+Always cite which document you used."""</span>,
+        messages=[{<span class="str">"role"</span>: <span class="str">"user"</span>, <span class="str">"content"</span>: question}]
+    )
+    <span class="kw">return</span> response.content[<span class="num">0</span>].text
+
+<span class="cm"># Now your team can ask any question about your product</span>
+<span class="cm"># and get grounded, cited answers instead of hallucinations</span>
+answer = <span class="fn">answer_from_docs</span>(<span class="str">"What does Feature A do?"</span>)</pre></div>
+    </div>
+  </div>
+
+  <div class="rbox"><div class="rlbl">Free Resources — Python for PMs</div><ul class="rlist">
+    <li><a href="https://www.kaggle.com/learn/python" target="_blank">Python for Beginners — Kaggle</a><span class="badge free">FREE</span><span class="rn"> Best free Python course for data work. Interactive in-browser. ~7 hours.</span></li>
+    <li><a href="https://www.kaggle.com/learn/pandas" target="_blank">Pandas for Data Analysis — Kaggle</a><span class="badge free">FREE</span><span class="rn"> Learn pandas for product metrics analysis. ~4 hours.</span></li>
+    <li><a href="https://docs.anthropic.com/en/api/getting-started" target="_blank">Anthropic API Docs</a><span class="badge free">FREE</span><span class="rn"> Official docs for building with Claude. PM-friendly examples.</span></li>
+    <li><a href="https://platform.openai.com/docs/quickstart" target="_blank">OpenAI API Quickstart</a><span class="badge free">FREE</span><span class="rn"> Build your first AI prototype in under 30 minutes.</span></li>
+    <li><a href="https://replit.com" target="_blank">Replit — Code in Browser</a><span class="badge free">FREE</span><span class="rn"> No setup needed. Prototype AI features directly in browser.</span></li>
+  </ul></div>
+
+  <div class="qlbl">Interview Questions</div>
+  <div class="qa" onclick="toggleQA(this)">
+    <div class="qa-q"><span class="qb">Q</span><span class="qsb" style="background:#fce7f3;color:#9d174d">OpenAI · Anthropic 2025</span><span class="qt">Build a quick AI prototype in 30 minutes. Walk us through your thinking. (Vibe coding interview)</span><span class="qarr">▶</span></div>
+    <div class="qa-a"><div class="albl">How to Approach This</div>
+    <p>This tests product thinking expressed through rapid execution, not coding skill.</p>
+    <p><strong>First 5 minutes — define what you're building:</strong> Don't start building. Say: "I'm going to build [specific feature] for [specific user] because [specific pain]. The core interaction is [X]. I'll use [Replit/v0/Cursor] because [reason]." This is the thinking they're evaluating.</p>
+    <p><strong>Next 20 minutes — build the MVP:</strong></p>
+    <ul>
+      <li>Open Replit or v0.dev. Describe the feature in plain English. Iterate on the output.</li>
+      <li>Focus on the core interaction, not polish. A working system prompt with good structure > a beautiful UI with no AI.</li>
+      <li>Write the system prompt first — this is your product logic, not engineering.</li>
+    </ul>
+    <p><strong>Last 5 minutes — reflect:</strong> "What works: [X]. What I'd improve: [Y]. What I'd validate with users: [Z]. The metric I'd track: [A]." Closing with product thinking shows you're a PM who can prototype — not a developer who also does product.</p>
+    <p><strong>Practice now:</strong> Spend 30 minutes building something with Replit before your interview. The confidence from having done it once makes an enormous difference.</p>
+    <div class="qsrc">New interview format at OpenAI, Anthropic, Google AI teams in 2025 — becoming standard</div></div>
+  </div>
+</div>
+
+<div class="topic" id="t6-3">
+  <div class="topic-hd"><span class="tnum">6.3</span><h3 class="ttitle">Tools Stack for AIPMs</h3><button class="done-btn" onclick="markDone(this,'t6-3')">✓ Mark done</button></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:12px 0">
+    <div>
+      <div style="font-size:9.5px;font-weight:800;color:var(--c6);text-transform:uppercase;margin-bottom:7px">AI Prototyping</div>
+      <div class="tgrid" style="margin:0">
+        <div class="tcard"><a href="https://claude.ai" target="_blank">Claude</a><div class="td">Daily driver for PRDs, research, prompt iteration</div></div>
+        <div class="tcard"><a href="https://platform.openai.com/playground" target="_blank">OpenAI Playground</a><div class="td">Test prompts live, compare models, adjust temp</div></div>
+        <div class="tcard"><a href="https://v0.dev" target="_blank">v0 by Vercel</a><div class="td">Generate UI components from text. No code needed.</div></div>
+        <div class="tcard"><a href="https://replit.com" target="_blank">Replit</a><div class="td">Browser-based coding. Build prototypes by describing them.</div></div>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:9.5px;font-weight:800;color:var(--c2);text-transform:uppercase;margin-bottom:7px">Analytics & Data</div>
+      <div class="tgrid" style="margin:0">
+        <div class="tcard"><a href="https://amplitude.com" target="_blank">Amplitude</a><div class="td">User behaviour analytics, funnels, retention. Free tier.</div></div>
+        <div class="tcard"><a href="https://mixpanel.com" target="_blank">Mixpanel</a><div class="td">Event tracking and cohort analysis. Free tier.</div></div>
+        <div class="tcard"><a href="https://metabase.com" target="_blank">Metabase</a><div class="td">Open-source BI. Query your database. Free self-hosted.</div></div>
+        <div class="tcard"><a href="https://notion.so" target="_blank">Notion</a><div class="td">PRDs, wikis, roadmaps. The default at modern tech companies.</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ CH7 AGILE ════════════ -->
+<div class="ch-hd" id="ch7">
+  <div class="ch-tags"><span class="ch-nbadge">Chapter 07</span><span class="ch-pill" style="background:var(--c7l);color:var(--c7)">HelloPM Agile</span></div>
+  <h2 class="ch-title" style="color:var(--c7)">Agile & Delivery</h2>
+  <div class="ch-bar" style="background:linear-gradient(90deg,var(--c7),#f472b6)"></div>
+  <p class="ch-desc">Agile is a mindset and framework enabling early and continuous delivery of valuable software. Instead of defining everything upfront, you break work into small cycles of define-build-ship-feedback.</p>
+</div>
+
+<div class="topic" id="t7-1">
+  <div class="topic-hd"><span class="tnum">7.1</span><h3 class="ttitle">Agile vs Waterfall</h3><button class="done-btn" onclick="markDone(this,'t7-1')">✓ Mark done</button></div>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">Agile vs Waterfall — The Fundamental Difference</div>
+    <div style="display:grid;grid-template-columns:1fr 40px 1fr;padding:14px;gap:0;align-items:center">
+      <div style="background:#fee2e2;border-radius:9px 0 0 9px;padding:14px">
+        <div style="font-size:11px;font-weight:800;color:#ef4444;text-transform:uppercase;margin-bottom:8px">WATERFALL — Rigid, One-shot</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="background:#fecaca;border-radius:5px;padding:6px 10px;font-size:11.5px;color:#991b1b;font-weight:600">1. Requirements — Define everything</div>
+          <div style="background:#fca5a5;border-radius:5px;padding:6px 10px;font-size:11.5px;color:#7f1d1d;font-weight:600">2. Design — Plan everything</div>
+          <div style="background:#f87171;border-radius:5px;padding:6px 10px;font-size:11.5px;color:#7f1d1d;font-weight:600">3. Build — Code for months</div>
+          <div style="background:#ef4444;border-radius:5px;padding:6px 10px;font-size:11.5px;color:#fff;font-weight:600">4. Launch — "Users hate it."</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:var(--ink3)">VS</div>
+      <div style="background:#d1fae5;border-radius:0 9px 9px 0;padding:14px">
+        <div style="font-size:11px;font-weight:800;color:#10b981;text-transform:uppercase;margin-bottom:8px">AGILE — Iterative, Adaptive</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="background:#a7f3d0;border-radius:5px;padding:6px 10px;font-size:11.5px;color:#065f46;font-weight:600">Sprint 1 → Build · Ship · Learn</div>
+          <div style="background:#6ee7b7;border-radius:5px;padding:6px 10px;font-size:11.5px;color:#064e3b;font-weight:600">Sprint 2 → Improve · Ship · Learn</div>
+          <div style="background:#34d399;border-radius:5px;padding:6px 10px;font-size:11.5px;color:#064e3b;font-weight:600">Sprint 3 → Adapt · Ship · Learn</div>
+          <div style="background:#10b981;border-radius:5px;padding:6px 10px;font-size:11.5px;color:#fff;font-weight:600">Constant feedback. Always adapting.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ex">
+    <div class="elbl">The Agile Manifesto — 4 Values</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+      <div class="sc"><strong>Individuals and interactions</strong> over processes and tools</div>
+      <div class="sc"><strong>Working software</strong> over comprehensive documentation</div>
+      <div class="sc"><strong>Customer collaboration</strong> over contract negotiation</div>
+      <div class="sc"><strong>Responding to change</strong> over following a plan</div>
+    </div>
+    <p style="margin-top:8px;font-size:12px;color:var(--ink2);font-style:italic">"We are not saying the right side has no value. But when you have to choose, choose the left."</p>
+  </div>
+</div>
+
+<div class="topic" id="t7-2">
+  <div class="topic-hd"><span class="tnum">7.2</span><h3 class="ttitle">Scrum & Sprints</h3><button class="done-btn" onclick="markDone(this,'t7-2')">✓ Mark done</button></div>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">The Scrum Sprint Cycle</div>
+    <div style="display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:5px;padding:16px">
+      <div style="width:84px;height:84px;border-radius:50%;background:#6366f1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px;color:#fff"><div style="font-size:16px;margin-bottom:2px">📋</div><div style="font-size:9.5px;font-weight:800">Product<br>Backlog</div></div>
+      <div style="font-size:14px;color:var(--ink3);font-weight:700">→</div>
+      <div style="width:84px;height:84px;border-radius:50%;background:#0ea5e9;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px;color:#fff"><div style="font-size:16px;margin-bottom:2px">📅</div><div style="font-size:9.5px;font-weight:800">Sprint<br>Planning</div></div>
+      <div style="font-size:14px;color:var(--ink3);font-weight:700">→</div>
+      <div style="width:84px;height:84px;border-radius:50%;background:#10b981;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px;color:#fff"><div style="font-size:16px;margin-bottom:2px">🏃</div><div style="font-size:9.5px;font-weight:800">2-Week<br>Sprint</div></div>
+      <div style="font-size:14px;color:var(--ink3);font-weight:700">→</div>
+      <div style="width:84px;height:84px;border-radius:50%;background:#f59e0b;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px;color:#fff"><div style="font-size:16px;margin-bottom:2px">☀️</div><div style="font-size:9.5px;font-weight:800">Daily<br>Scrum</div></div>
+      <div style="font-size:14px;color:var(--ink3);font-weight:700">→</div>
+      <div style="width:84px;height:84px;border-radius:50%;background:#ef4444;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px;color:#fff"><div style="font-size:16px;margin-bottom:2px">🚀</div><div style="font-size:9.5px;font-weight:800">Sprint<br>Review</div></div>
+      <div style="font-size:14px;color:var(--ink3);font-weight:700">→</div>
+      <div style="width:84px;height:84px;border-radius:50%;background:#8b5cf6;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:8px;color:#fff"><div style="font-size:16px;margin-bottom:2px">🔄</div><div style="font-size:9.5px;font-weight:800">Retro-<br>spective</div></div>
+    </div>
+  </div>
+  <div class="cgrid">
+    <div class="ccard" style="border-top:3px solid var(--c4)"><div class="term">☀️ Daily Scrum (Y-B-B)</div><div class="def">Three questions in 10-20 min every morning: What did you do <strong>Yesterday</strong>? What will you <strong>B</strong>e doing today? What are you <strong>B</strong>locked by? Surfaces issues early, avoids end-of-sprint surprises.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c6)"><div class="term">🔄 Sprint Retrospective</div><div class="def">The most critical meeting for PMs. Three questions: (1) What went well? (2) What could be improved? (3) What are the action points? This is where course correction happens. Don't skip it.</div></div>
+  </div>
+</div>
+
+<div class="topic" id="t7-3">
+  <div class="topic-hd"><span class="tnum">7.3</span><h3 class="ttitle">Metrics & A/B Testing</h3><button class="done-btn" onclick="markDone(this,'t7-3')">✓ Mark done</button></div>
+  <div style="background:#fff;border:1.5px solid var(--line);border-radius:var(--r);overflow:hidden;margin:12px 0">
+    <div style="background:var(--ink);padding:9px 14px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#fff">How A/B Testing Works</div>
+    <div style="display:flex;align-items:center;justify-content:center;gap:12px;padding:16px;flex-wrap:wrap">
+      <div style="background:var(--c6l);border-radius:9px;padding:12px 16px;text-align:center"><div style="font-size:20px;margin-bottom:4px">👥</div><div style="font-size:11px;font-weight:700;color:var(--c6)">ALL USERS</div><div style="font-size:10px;color:var(--ink3)">100% traffic</div></div>
+      <div style="font-size:18px;color:var(--ink3)">→</div>
+      <div style="display:flex;flex-direction:column;gap:6px">
+        <div style="background:#d1fae5;border-radius:7px;padding:9px 14px;text-align:center"><div style="font-size:10.5px;font-weight:700;color:#065f46">50% → A (Control)</div><div style="font-size:10px;color:#064e3b">Original version</div></div>
+        <div style="background:#dbeafe;border-radius:7px;padding:9px 14px;text-align:center"><div style="font-size:10.5px;font-weight:700;color:#1e40af">50% → B (Experiment)</div><div style="font-size:10px;color:#1e3a8a">Modified version</div></div>
+      </div>
+      <div style="font-size:18px;color:var(--ink3)">→</div>
+      <div style="background:var(--ink);border-radius:9px;padding:12px 16px;text-align:center;color:#fff"><div style="font-size:20px;margin-bottom:4px">📊</div><div style="font-size:11px;font-weight:700">MEASURE</div><div style="font-size:10px;color:rgba(255,255,255,.7)">Which converts better?</div></div>
+    </div>
+    <div style="text-align:center;font-size:10.5px;color:var(--ink3);padding:0 14px 12px">Random split · Same time period · One variable changed · Statistical significance required</div>
+  </div>
+  <div class="callout warn"><span class="ci">⚠️</span><div><strong>Critical PM rule:</strong> Decide your metrics BEFOREHAND. If you wait until after launch, you'll cherry-pick whatever metric moved. Also: run experiments for at least 2 weeks to account for the novelty effect. — HelloPM</div></div>
+  <div class="callout note"><span class="ci">🤖</span><div><strong>AI's Path 1 vs Path 2 (HelloPM):</strong><br><strong>Path 1 (Outsourcer):</strong> Question → ChatGPT → Submit. Leads to delegating judgment to a system that has none.<br><strong>Path 2 (Amplifier):</strong> Reflect deeply → Create V1 from your own thinking → Use AI to stress-test and challenge assumptions → Refine → Ship V3. An LLM amplifies your thinking. If your thinking is shallow, it amplifies shallow.</div></div>
+</div>
+
+<div class="topic" id="t7-4">
+  <div class="topic-hd"><span class="tnum">7.4</span><h3 class="ttitle">Working with Stakeholders</h3><button class="done-btn" onclick="markDone(this,'t7-4')">✓ Mark done</button></div>
+  <table class="tbl"><thead><tr><th>Question</th><th>Owner</th><th>Description</th></tr></thead><tbody>
+  <tr><td><strong>Why?</strong></td><td>PM</td><td>Why are we pursuing this? Business goal, user goal.</td></tr>
+  <tr><td><strong>What?</strong></td><td>PM + Design</td><td>What solution are we building? Flow, product definition.</td></tr>
+  <tr><td><strong>How?</strong></td><td>Engineering Manager</td><td>Technology, algorithm, system architecture.</td></tr>
+  <tr><td><strong>Who?</strong></td><td>Engineering Manager</td><td>Which engineers work on this? EM knows strengths and availability.</td></tr>
+  <tr><td><strong>When?</strong></td><td>Engineering Manager</td><td>Timeline. Never commit a timeline without consulting engineering.</td></tr>
+  </tbody></table>
+  <div class="callout tip"><span class="ci">💡</span><div><strong>PM-EM Relationship: 3 Pillars (HelloPM):</strong><br>1) <strong>Mutual Trust</strong> — Trust each other's abilities. Without this, nothing works.<br>2) <strong>Joint Accountability</strong> — Both responsible for success or failure. Cannot blame each other.<br>3) <strong>Separate Ownership</strong> — Why/What = PM. How/Who/When = EM.</div></div>
+</div>
+
+<!-- ════════════ CH8 INTERVIEW ════════════ -->
+<div class="ch-hd" id="ch8">
+  <div class="ch-tags"><span class="ch-nbadge">Chapter 08</span><span class="ch-pill" style="background:var(--c8l);color:var(--c8)">Get the Job</span></div>
+  <h2 class="ch-title" style="color:var(--c8)">Interview Preparation</h2>
+  <div class="ch-bar" style="background:linear-gradient(90deg,var(--c8),#2dd4bf)"></div>
+  <p class="ch-desc">Real questions from real interviews at Google, Meta, OpenAI, and Anthropic — with full model answers. Written by someone who has been on both sides of the table.</p>
+</div>
+
+<div class="topic" id="t8-1">
+  <div class="topic-hd"><span class="tnum">8.1</span><h3 class="ttitle">Real Questions Actually Asked — 2024/25</h3><button class="done-btn" onclick="markDone(this,'t8-1')">✓ Mark done</button></div>
+  <table class="tbl"><thead><tr><th>Company</th><th>Type</th><th>Actual Question</th></tr></thead><tbody>
+  <tr><td><strong>OpenAI</strong></td><td>Product Sense</td><td>"What goal would you set for an AI-only social network that OpenAI is building?"</td></tr>
+  <tr><td><strong>OpenAI</strong></td><td>Design</td><td>"Design a solution to communicate with pets using AI."</td></tr>
+  <tr><td><strong>OpenAI</strong></td><td>Strategy</td><td>"How would you prioritise making GPT-4 cheaper vs investing in GPT-5?"</td></tr>
+  <tr><td><strong>Google</strong></td><td>Design</td><td>"Build an AI feature for Gmail." / "How would you use AI to improve Google Search?"</td></tr>
+  <tr><td><strong>Google</strong></td><td>Strategy</td><td>"Should Google build a standalone AI therapist?"</td></tr>
+  <tr><td><strong>Meta</strong></td><td>Design</td><td>"Design an AI feature for Instagram that helps small creators grow."</td></tr>
+  <tr><td><strong>Meta</strong></td><td>Metrics</td><td>"How would you measure the success of Meta AI inside WhatsApp?"</td></tr>
+  <tr><td><strong>Anthropic</strong></td><td>Safety</td><td>"How would you handle a safety concern that conflicts with a product launch deadline?"</td></tr>
+  <tr><td><strong>Microsoft</strong></td><td>Behavioural</td><td>"Tell me about a time you shipped an AI feature that didn't perform as expected."</td></tr>
+  <tr><td><strong>Multiple</strong></td><td>🔥 Vibe Coding</td><td>"Build a quick AI prototype in 30 minutes. Walk us through your thinking."</td></tr>
+  </tbody></table>
+  <div class="callout danger"><span class="ci">🔥</span><div><strong>New in 2025 — Vibe Coding Interviews:</strong> OpenAI, Anthropic, and AI teams at Google/Meta are now asking candidates to build working prototypes using Cursor, v0, or Replit during the interview loop. See Section 6.2 for preparation. Practice this before your interview — the confidence from having done it once makes all the difference.</div></div>
+</div>
+
+<div class="topic" id="t8-2">
+  <div class="topic-hd"><span class="tnum">8.2</span><h3 class="ttitle">The 8-Step Answer Framework</h3><button class="done-btn" onclick="markDone(this,'t8-2')">✓ Mark done</button></div>
+  <p class="body">Works for product design, improvement, and AI feature questions. Treat as a checklist — by the end of your answer, touch all 8. The most important: <strong>name your framework before saying anything else.</strong></p>
+  <div class="steps">
+    <div class="step"><div class="sn">1</div><div class="sc2"><div class="st">Name your framework</div><div class="sd">One sentence before anything else. "I'm prioritising by safety impact and creator growth because those are Instagram's biggest gaps against TikTok." Signals structured thinking immediately.</div></div></div>
+    <div class="step"><div class="sn">2</div><div class="sc2"><div class="st">Define the user precisely</div><div class="sd">Not 'users'. Not 'young people'. "Daily two-wheeler commuters in Indian tier-1 cities navigating dense residential streets." Specificity signals you've actually thought about who you're designing for.</div></div></div>
+    <div class="step"><div class="sn">3</div><div class="sc2"><div class="st">State the pain — not the feature</div><div class="sd">What actually goes wrong in the user's life today? Spend 20-30% of your answer here. Make the interviewer feel the pain before you propose any solution.</div></div></div>
+    <div class="step"><div class="sn">4</div><div class="sc2"><div class="st">Propose one P0 feature</div><div class="sd">One feature only. Resist listing five. Pick one and describe it precisely — what does the user do, what does the product do, what is the exact outcome?</div></div></div>
+    <div class="step"><div class="sn">5</div><div class="sc2"><div class="st">Name the real trade-off</div><div class="sd">Not 'this is hard to build'. The real tension: "We're trading coverage for accuracy" or "We're serving power users at the expense of casual ones." Show you see the cost of your decision.</div></div></div>
+    <div class="step"><div class="sn">6</div><div class="sc2"><div class="st">Define a behavioural metric</div><div class="sd">Not DAU. Not impressions. "% of users who complete the AI-guided loop without skipping." Something that changes only when users are genuinely getting value.</div></div></div>
+    <div class="step"><div class="sn">7</div><div class="sc2"><div class="st">Add an adaptive guard rail</div><div class="sd">What must not get worse — AND what does the system do if it does? "If skip rate exceeds 30%, shift recommendations to highest watch-completion content for that user." Name the recovery path, not just the threshold.</div></div></div>
+    <div class="step"><div class="sn">8</div><div class="sc2"><div class="st">Why this company, why now</div><div class="sd">One sentence: what data, distribution, or model capability does this specific company have that makes this moment right? Shows strategic awareness and competitive thinking.</div></div></div>
+  </div>
+</div>
+
+<div class="topic" id="t8-3">
+  <div class="topic-hd"><span class="tnum">8.3</span><h3 class="ttitle">Full Mock Answers</h3><button class="done-btn" onclick="markDone(this,'t8-3')">✓ Mark done</button></div>
+  <div class="qlbl">Product Design</div>
+  <div class="qa" onclick="toggleQA(this)">
+    <div class="qa-q"><span class="qb">Q</span><span class="qsb" style="background:#dbeafe;color:#1e40af">Google Maps India</span><span class="qt">Design an AI feature for Google Maps for two-wheeler riders in India.</span><span class="qarr">▶</span></div>
+    <div class="qa-a"><div class="albl">Full 8-Step Answer</div>
+    <p><strong>Framework:</strong> Prioritising by safety impact and navigation accuracy — the two biggest gaps for two-wheelers vs car-optimised navigation.</p>
+    <p><strong>User:</strong> Daily two-wheeler commuters in Indian tier-1 and tier-2 cities navigating dense traffic, narrow lanes, and road conditions not reflected in standard map data.</p>
+    <p><strong>Problem:</strong> Google Maps is designed for cars. Two-wheelers can use lanes too narrow to appear on maps, navigate through traffic gaps, and are far more vulnerable to potholes. Current product gives wrong ETAs (too slow), wrong routes (too wide), and zero hazard information.</p>
+    <p><strong>Feature P0:</strong> Two-Wheeler Mode — dedicated navigation using crowdsourced two-wheeler journey data to suggest faster routes including narrow lanes, with real-time road condition warnings (potholes, water-logging) contributed by other riders.</p>
+    <p><strong>Trade-off:</strong> Crowdsourced data quality is variable — early coverage sparse outside metros. Launch in top 5 cities where data density is highest. Accept lower coverage in exchange for higher accuracy where data exists.</p>
+    <p><strong>Metric:</strong> Two-wheeler ETA accuracy (predicted vs actual journey time) and route adherence rate.</p>
+    <p><strong>Guard rail:</strong> Don't show hazard warnings with fewer than 5 independent reports — a false warning erodes trust faster than no warning. Recovery: auto-hide warnings that haven't been confirmed in 24h.</p>
+    <p><strong>Why Google now:</strong> 50M+ monthly active Maps users in India. Waze crowdsource infrastructure already exists. No competitor has this data density at scale.</p>
+    <div class="qsrc">Category reported at Google, Ola, Swiggy PM interviews · 2024-25</div></div>
+  </div>
+
+  <div class="qlbl">Safety & Ethics (Anthropic/OpenAI specific)</div>
+  <div class="qa" onclick="toggleQA(this)">
+    <div class="qa-q"><span class="qb">Q</span><span class="qsb" style="background:#ccfbf1;color:#0f766e">Anthropic · OpenAI</span><span class="qt">How would you handle a safety concern that conflicts with a product launch deadline?</span><span class="qarr">▶</span></div>
+    <div class="qa-a"><div class="albl">Model Answer</div>
+    <p><strong>My answer is direct: the safety concern takes precedence. Always. The product launch deadline moves.</strong></p>
+    <p><strong>Why:</strong> A safety incident at an AI company is not just a product problem. It's a mission-alignment failure, a regulatory risk, and a trust crisis that takes years to recover from. Delaying a launch by 2 weeks is recoverable. A safety incident involving real user harm is not.</p>
+    <p><strong>How I'd handle the pressure:</strong></p>
+    <ul>
+      <li>Be specific about the concern: what exactly is the safety risk, its probability, and potential severity? Vague concerns don't stop launches. Specific, documented, high-severity risks do.</li>
+      <li>Propose a mitigation path: can we scope the launch to exclude the risky use case? Add a human review gate? Launch to a limited audience first?</li>
+      <li>Escalate if needed: if the team is under pressure to ignore a credible safety risk, I escalate. This is what safety teams exist for.</li>
+    </ul>
+    <p><strong>What I'd never do:</strong> "Ship and monitor." That's a plan to harm users while generating evidence to fix the problem. Never acceptable for a credible safety concern.</p>
+    <div class="qsrc">Specifically asked at Anthropic and OpenAI PM interviews. Your answer signals mission alignment.</div></div>
+  </div>
+
+  <div class="qlbl">Estimation</div>
+  <div class="qa" onclick="toggleQA(this)">
+    <div class="qa-q"><span class="qb">Q</span><span class="qsb" style="background:#dbeafe;color:#1e40af">Google · McKinsey</span><span class="qt">Estimate how many AI assistant queries are sent globally per day in 2025.</span><span class="qarr">▶</span></div>
+    <div class="qa-a"><div class="albl">Model Answer</div>
+    <p>Building from the bottom up using published data as anchors:</p>
+    <ul>
+      <li><strong>ChatGPT:</strong> ~200M weekly actives (2025). Average 5 queries/user/day = ~1 billion queries/day</li>
+      <li><strong>Gemini (Google):</strong> 8.5B searches/day. 10% involve AI = ~850M AI queries/day</li>
+      <li><strong>Microsoft Copilot:</strong> 400M 365 subscribers. 5% daily active at 3 queries = ~60M/day</li>
+      <li><strong>Claude (Anthropic):</strong> Smaller base. ~50M/day</li>
+      <li><strong>Others (Meta AI, Perplexity, Chinese platforms):</strong> ~600M/day combined</li>
+    </ul>
+    <p><strong>Total estimate: ~2.5 billion AI assistant queries per day globally.</strong></p>
+    <p><strong>Sanity check:</strong> 4 billion internet users. 2.5B queries implies ~1 in 1.6 internet users sends an AI query daily — plausible given AI is now embedded in search, email, and coding tools. <strong>Range: 1.5 to 4 billion/day.</strong></p></div>
+  </div>
+</div>
+
+<div class="topic" id="t8-4">
+  <div class="topic-hd"><span class="tnum">8.4</span><h3 class="ttitle">Common Mistakes to Avoid</h3><button class="done-btn" onclick="markDone(this,'t8-4')">✓ Mark done</button></div>
+  <div class="cgrid">
+    <div class="ccard" style="border-top:3px solid var(--c5)"><div class="term">🚫 Jumping to features</div><div class="def">The #1 mistake. Spend 30-40% of your answer establishing the user and problem BEFORE naming a single feature. Interviewers watch specifically for this discipline. You can be rejected in the first 2 minutes.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c4)"><div class="term">👤 Vague user definitions</div><div class="def">'Young users' and 'enterprise customers' are demographics, not users. Define by behaviour and context: "First-time managers at startups under 200 people who've never had management training."</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c6)"><div class="term">✂️ Not killing alternatives</div><div class="def">In prioritisation questions, explicitly explain why each rejected option lost. Weak candidates defend their picks. Strong candidates also kill the alternatives with specific reasoning.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c2)"><div class="term">📊 Vanity metrics</div><div class="def">If your success metric could go up even when the product isn't helping users, it's vanity. 'Impressions', 'clicks' without context. Go one layer deeper every time.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c3)"><div class="term">🤖 Ignoring AI failure modes</div><div class="def">For any AI feature question, always address: what happens when the AI is wrong? What's the fallback? Ignoring this makes you look like a PM who doesn't understand probabilistic systems.</div></div>
+    <div class="ccard" style="border-top:3px solid var(--c7)"><div class="term">🛡️ No guard rail</div><div class="def">Every metric needs a guard rail AND a recovery path. Every interviewer knows that optimising engagement without a guard rail gave us infinite scroll and social media addiction.</div></div>
+  </div>
+
+  <hr class="div">
+
+  <div class="callout tip" style="padding:18px 20px">
+    <span class="ci" style="font-size:18px">🎯</span>
+    <div>
+      <strong style="font-size:13px">A final word from the product head</strong><br><br>
+      The difference between candidates who get AIPM roles and those who don't is rarely technical knowledge. It's the habit of thinking in systems — users, problems, features, trade-offs, metrics, guard rails — applied consistently, even under pressure.<br><br>
+      That habit is built through practice, not reading. Use this guide as your foundation. Then answer one practice question every day. Record yourself. Play it back. Notice where you jump to solutions too early. Fix those. Repeat.<br><br>
+      <strong>Ship great products. 🚀</strong>
+    </div>
+  </div>
+
+  <div class="rbox">
+    <div class="rlbl">Free Resources — Final Interview Prep</div>
+    <ul class="rlist">
+      <li><a href="https://igotanoffer.com/en/advice/ai-product-manager-interview" target="_blank">IGotAnOffer — AIPM Interview Guide</a><span class="badge free">FREE</span><span class="rn"> Real questions from OpenAI, Google, Meta with frameworks.</span></li>
+      <li><a href="https://hellopm.co" target="_blank">HelloPM — Free AI PM Course</a><span class="badge free">FREE</span><span class="rn"> The source for much of this guide. Ankit Shukla's free curriculum.</span></li>
+      <li><a href="https://www.coursera.org/specializations/ai-product-management-duke" target="_blank">AI Product Management — Duke University, Coursera</a><span class="badge free">FREE</span><span class="rn"> Free audit available. Most structured academic AIPM programme online.</span></li>
+      <li><a href="https://www.lennysnewsletter.com" target="_blank">Lenny's Newsletter</a><span class="badge free">FREE</span><span class="rn"> The best PM writing on the internet. Read every week.</span></li>
+    </ul>
+  </div>
+</div>
+
+</div><!-- end .wrap -->
+</main>
+
+<script>
+// ── NAV TOGGLE ──
+function toggleCh(el){
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('open');
+}
+
+// ── QA TOGGLE ──
+function toggleQA(el){ el.classList.toggle('open'); }
+
+// ── SIDEBAR MOBILE ──
+function toggleSB(){
+  document.getElementById('sb').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('vis');
+}
+
+// ── PROGRESS ──
+const TOPICS=['t1-1','t1-2','t1-3','t1-4',
+  't2-1','t2-2','t2-3','t2-4','t2-5',
+  't3-1','t3-2','t3-3','t3-4',
+  't4-1','t4-2','t4-3','t4-4',
+  't5-1','t5-2','t5-3','t5-4',
+  't6-1','t6-2','t6-3',
+  't7-1','t7-2','t7-3','t7-4',
+  't8-1','t8-2','t8-3','t8-4'];
+
+let DONE={};
+try{ DONE=JSON.parse(localStorage.getItem('aipm-lms-2025')||'{}'); }catch(e){}
+
+function markDone(btn,id){
+  if(DONE[id]){
+    delete DONE[id];
+    btn.textContent='✓ Mark done';
+    btn.classList.remove('done');
+  }else{
+    DONE[id]=1;
+    btn.textContent='✓ Done!';
+    btn.classList.add('done');
+  }
+  try{ localStorage.setItem('aipm-lms-2025',JSON.stringify(DONE)); }catch(e){}
+  updateProgress();
+  refreshNavDone();
+}
+
+function updateProgress(){
+  const n=Object.keys(DONE).length;
+  const pct=Math.round(n/TOPICS.length*100);
+  document.getElementById('pfill').style.width=pct+'%';
+  document.getElementById('pct').textContent=pct+'% complete';
+}
+
+function refreshNavDone(){
+  TOPICS.forEach(id=>{
+    const link=document.querySelector('.nav-t[href="#'+id+'"]');
+    if(link) link.classList.toggle('done',!!DONE[id]);
+  });
+}
+
+function restoreProgress(){
+  TOPICS.forEach(id=>{
+    if(!DONE[id]) return;
+    const btn=document.querySelector('#'+id+' .done-btn');
+    if(btn){ btn.textContent='✓ Done!'; btn.classList.add('done'); }
+  });
+  updateProgress();
+  refreshNavDone();
+}
+
+// ── ACTIVE NAV (scroll-based) ──
+function updateActiveNav(){
+  const all=document.querySelectorAll('.topic');
+  let cur='';
+  all.forEach(t=>{ if(t.getBoundingClientRect().top<=100) cur=t.id; });
+  document.querySelectorAll('.nav-t').forEach(a=>a.classList.remove('active'));
+  if(cur){
+    const a=document.querySelector('.nav-t[href="#'+cur+'"]');
+    if(a) a.classList.add('active');
+  }
+}
+
+// ── SEARCH ──
+function doSearch(q){
+  const nav=document.getElementById('nav');
+  if(!q.trim()){
+    nav.querySelectorAll('.nav-t,.nav-ch').forEach(el=>el.style.display='');
+    return;
+  }
+  const qL=q.toLowerCase();
+  nav.querySelectorAll('.nav-t').forEach(a=>{
+    const match=a.textContent.toLowerCase().includes(qL);
+    a.style.display=match?'':'none';
+    if(match){
+      a.closest('.nav-topics').classList.add('open');
+      a.closest('.nav-topics').previousElementSibling.classList.add('open');
+    }
+  });
+  nav.querySelectorAll('.nav-ch').forEach(ch=>{
+    const topics=ch.nextElementSibling;
+    const any=[...topics.querySelectorAll('.nav-t')].some(a=>a.style.display!=='none');
+    ch.style.display=any?'':'none';
+  });
+}
+
+// ── BACK TO TOP ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('btt').classList.toggle('vis',window.scrollY>500);
+  updateActiveNav();
+},{passive:true});
+
+// ── INIT ──
+restoreProgress();
+updateActiveNav();
+</script>
+</body>
+</html>
